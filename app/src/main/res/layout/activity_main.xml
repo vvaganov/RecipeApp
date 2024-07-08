@@ -11,8 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/main_horizontal_indentation"
-        android:layout_marginBottom="@dimen/bottom_indentation"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -21,7 +21,7 @@
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/internal_indentation"
+            android:layout_marginEnd="@dimen/margin_2"
             android:layout_weight="1"
             android:backgroundTint="@color/categoryBackgroundColor"
             android:text="@string/title_category" />
@@ -30,10 +30,10 @@
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/internal_indentation"
+            android:layout_marginStart="@dimen/margin_2"
             android:layout_weight="1"
             android:backgroundTint="@color/favouritesBackgroundColor"
-            android:text="@string/favourites"
+            android:text="@string/title_favourites"
             app:icon="@drawable/ic_heart_empty"
             app:iconGravity="textEnd" />
     </LinearLayout>

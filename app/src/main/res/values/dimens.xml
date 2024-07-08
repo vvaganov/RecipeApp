@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="main_horizontal_indentation">16dp</dimen>
-    <dimen name="half_main_horizontal_indentation">8dp</dimen>
-    <dimen name="bottom_indentation">55dp</dimen>
-    <dimen name="internal_indentation">2dp</dimen>
-    <dimen name="main_corner_radius">8dp</dimen>
-    <dimen name="main_text_size">14dp</dimen>
-    <dimen name="bottom_padding_vertical">10dp</dimen>
-    <dimen name="bottom_padding_horizontal">10dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="text_size_14">14dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
 </resources>
