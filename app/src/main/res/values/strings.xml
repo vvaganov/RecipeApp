@@ -2,4 +2,4 @@
     <string name="app_name" translatable="false">RecipeApp</string>
     <string name="title_category">Category</string>
     <string name="title_favourites">Favourites</string>
-</resources>
+   </resources>
