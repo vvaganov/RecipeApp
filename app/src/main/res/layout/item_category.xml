@@ -8,7 +8,6 @@
     android:layout_marginVertical="@dimen/margin_8"
     android:foreground="?attr/selectableItemBackground"
     android:clickable="true"
-    app:cardBackgroundColor="@color/appBackgroundColor"
     app:cardCornerRadius="@dimen/margin_8"
     tools:ignore="MissingConstraints">
 
