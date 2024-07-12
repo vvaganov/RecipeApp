@@ -9,5 +9,6 @@
     android:clickable="true"
     app:cardBackgroundColor="@color/appBackgroundColor"
     app:cardUseCompatPadding="true"
+    app:cardCornerRadius="@dimen/margin_8"
     tools:ignore="MissingConstraints">
 </androidx.cardview.widget.CardView>
