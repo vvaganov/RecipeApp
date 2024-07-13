@@ -1,11 +1,14 @@
+package com.example.recipeapp
+
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipeapp.Category
-import com.example.recipeapp.R
+import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
@@ -24,9 +27,15 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val category = dataSet[position]
+        try {
+            val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)
+            val drawable = Drawable.createFromStream(inputStream, null)
+            viewHolder.imageViewTitle.setImageDrawable(drawable)
+        }catch (e:Exception) {
+            Log.e("!!!", e.stackTrace.toString())
+        }
         viewHolder.textViewTitle.text = category.title
         viewHolder.textViewDescription.text = category.description
-
     }
 
     override fun getItemCount() = dataSet.size
