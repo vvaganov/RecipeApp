@@ -46,7 +46,7 @@
                 android:fontFamily="@font/montserrat_alternates_medium"
                 android:lineHeight="@dimen/text_size_16"
                 android:textSize="@dimen/text_size_12"
-                tools:text="Рецепты всех популярных видов бургеров"/>
+                tools:text="Рецепты всех популярных видов бургеров" />
         </LinearLayout>
 
     </LinearLayout>
