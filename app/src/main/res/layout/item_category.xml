@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_8"
+    android:layout_marginVertical="@dimen/margin_8"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/appBackgroundColor"
+    app:cardCornerRadius="@dimen/margin_8"
+    tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/burger" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_8">
+
+            <TextView
+                style="@style/StyleTitle14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="@dimen/text_size_16"
+                android:textColor="@color/black"
+                tools:text="Бургеры" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_8"
+                android:fontFamily="@font/montserrat_alternates_medium"
+                android:lineHeight="@dimen/text_size_16"
+                android:textSize="@dimen/text_size_12"
+                tools:text="Рецепты всех популярных видов бургеров" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

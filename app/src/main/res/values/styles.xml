@@ -8,6 +8,12 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="StyleTitle14.StyleTitle20">
+        <item name="android:textSize">@dimen/text_size_20</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">@dimen/padding_10</item>
+    </style>
+
     <style name="StyleNavButton" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/StyleTitle14</item>
         <item name="android:paddingVertical">@dimen/padding_10</item>
