@@ -20,6 +20,17 @@ class CategoriesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         return categoriesListBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecycler()
+    }
+
+    private fun initRecycler() {
+        val customAdapter = CategoriesListAdapter(STUB.getCategories())
+        categoriesListBinding.rvCategories.adapter = customAdapter
     }
 }

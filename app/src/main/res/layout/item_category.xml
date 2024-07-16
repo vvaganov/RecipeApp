@@ -8,7 +8,6 @@
     android:layout_marginVertical="@dimen/margin_8"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/appBackgroundColor"
     app:cardCornerRadius="@dimen/margin_8"
     tools:ignore="MissingConstraints">
 
@@ -18,6 +17,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/imgCategoryList"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:scaleType="centerCrop"
@@ -30,6 +30,7 @@
             android:padding="@dimen/margin_8">
 
             <TextView
+                android:id="@+id/tvTitle"
                 style="@style/StyleTitle14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,8 +39,9 @@
                 tools:text="Бургеры" />
 
             <TextView
+                android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
                 android:fontFamily="@font/montserrat_alternates_medium"
                 android:lineHeight="@dimen/text_size_16"
