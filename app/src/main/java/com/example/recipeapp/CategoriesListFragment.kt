@@ -34,19 +34,19 @@ class CategoriesListFragment : Fragment() {
     private fun initRecycler() {
         val customAdapter = CategoriesListAdapter(STUB.getCategories())
         categoriesListBinding.rvCategories.adapter = customAdapter
-        openRecipesByCategoryId(customAdapter)
-    }
-
-    private fun openRecipesByCategoryId(adapter: CategoriesListAdapter) {
-        adapter.setOnItemClickListener(
+        customAdapter.setOnItemClickListener(
             object : CategoriesListAdapter.OnItemClickListener {
                 override fun onItemClick() {
-                    parentFragmentManager?.commit {
-                        setReorderingAllowed(true)
-                        replace<RecipesListFragment>(R.id.mainContainer)
-                    }
+                    openRecipesByCategoryId()
                 }
             }
         )
+    }
+
+    private fun openRecipesByCategoryId() {
+        parentFragmentManager?.commit {
+            setReorderingAllowed(true)
+            replace<RecipesListFragment>(R.id.mainContainer)
+        }
     }
 }
