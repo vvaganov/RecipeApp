@@ -37,17 +37,20 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val category = dataSet[position]
-        try {
-            val inputStream: InputStream? =
-                viewHolder.itemView.context?.assets?.open(category.imageUrl)
-            val drawable = Drawable.createFromStream(inputStream, null)
-            viewHolder.imageViewTitle.setImageDrawable(drawable)
-        } catch (e: Exception) {
-            Log.e("!!!", e.stackTrace.toString())
+
+        with(viewHolder) {
+            try {
+                val inputStream: InputStream? =
+                    itemView.context?.assets?.open(category.imageUrl)
+                val drawable = Drawable.createFromStream(inputStream, null)
+                imageViewTitle.setImageDrawable(drawable)
+            } catch (e: Exception) {
+                Log.e("!!!", e.stackTrace.toString())
+            }
+            textViewTitle.text = category.title
+            textViewDescription.text = category.description
+            itemView.setOnClickListener { itemClickListener?.onItemClick() }
         }
-        viewHolder.textViewTitle.text = category.title
-        viewHolder.textViewDescription.text = category.description
-        viewHolder.itemView.setOnClickListener { itemClickListener?.onItemClick() }
     }
 
     override fun getItemCount() = dataSet.size
