@@ -37,7 +37,7 @@ class CategoriesListFragment : Fragment() {
         openRecipesByCategoryId(customAdapter)
     }
 
-    private fun openRecipesByCategoryId(adapter: CategoriesListAdapter){
+    private fun openRecipesByCategoryId(adapter: CategoriesListAdapter) {
         adapter.setOnItemClickListener(
             object : CategoriesListAdapter.OnItemClickListener {
                 override fun onItemClick() {

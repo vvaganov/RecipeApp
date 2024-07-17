@@ -19,7 +19,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
 
     private var itemClickListener: OnItemClickListener? = null
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
     }
 
@@ -47,7 +47,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
         }
         viewHolder.textViewTitle.text = category.title
         viewHolder.textViewDescription.text = category.description
-        viewHolder.itemView.setOnClickListener{itemClickListener?.onItemClick()}
+        viewHolder.itemView.setOnClickListener { itemClickListener?.onItemClick() }
     }
 
     override fun getItemCount() = dataSet.size
