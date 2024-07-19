@@ -1,7 +1,6 @@
 package com.example.recipeapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,22 +37,22 @@ class CategoriesListFragment : Fragment() {
         categoriesListBinding.rvCategories.adapter = customAdapter
         customAdapter.setOnItemClickListener(
             object : CategoriesListAdapter.OnItemClickListener {
-                override fun onItemClick(itemId: Int) {
-                    openRecipesByCategoryId(itemId)
+                override fun onItemClick(categoryId: Int) {
+                    openRecipesByCategoryId(categoryId)
                 }
             }
         )
     }
 
-    private fun openRecipesByCategoryId(itemId: Int) {
+    private fun openRecipesByCategoryId(categoryId: Int) {
         val category = STUB.getCategories()
-        val categoryName: String = category.first { it.id == itemId }.title
-        val categoryImageUrl: String = category.first { it.id == itemId }.imageUrl
+        val categoryName: String = category.first { it.id == categoryId }.title
+        val categoryImageUrl: String = category.first { it.id == categoryId }.imageUrl
 
         val bundle = bundleOf(
-            "ARG_CATEGORY_ID" to itemId,
-            "ARG_CATEGORY_NAME" to categoryName,
-            "ARG_CATEGORY_IMAGE_URL" to categoryImageUrl,
+            ARG_CATEGORY_ID to categoryId,
+            ARG_CATEGORY_NAME to categoryName,
+            ARG_CATEGORY_IMAGE_URL to categoryImageUrl,
         )
         parentFragmentManager.commit {
             setReorderingAllowed(true)
