@@ -5,5 +5,6 @@
     <color name="appBackgroundColor">#F4FAFF</color>
     <color name="categoryBackgroundColor">#525DC0</color>
     <color name="favouritesBackgroundColor">#E13E3E</color>
+    <color name="recipeListTitle">#5F3678</color>
 
 </resources>

@@ -8,6 +8,10 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="StyleTitle14.StyleListRecipeTitle">
+        <item name="android:textColor">@color/recipeListTitle</item>
+    </style>
+
     <style name="StyleTitle14.StyleTitle20">
         <item name="android:textSize">@dimen/text_size_20</item>
         <item name="android:textColor">@color/black</item>
