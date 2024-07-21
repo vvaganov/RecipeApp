@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/imgCategoryList"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="@dimen/height_image_category_list"
             android:scaleType="centerCrop"
             tools:src="@drawable/burger" />
 

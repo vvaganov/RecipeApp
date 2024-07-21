@@ -19,13 +19,13 @@
         <ImageView
             android:id="@+id/imgRecipeList"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="@dimen/height_image_recipe_list"
             android:scaleType="centerCrop"
             tools:src="@drawable/burger" />
 
         <TextView
             android:id="@+id/tvRecipeListTitle"
-            style="@style/StyleTitle14.StyleListRecipeTitle"
+            style="@style/StyleListRecipeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineHeight="@dimen/text_size_16"
