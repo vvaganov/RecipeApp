@@ -7,6 +7,16 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>
+    <style name="StyleTitle16" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/montserrat_alternates_semi_bold</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/numberOfServings</item>
+    </style>
+
+    <style name="StyleIngredientsText" parent="StyleTitle14">
+        <item name="android:textColor">@color/ingredientsListTextColor</item>
+        <item name="fontFamily">@font/montserrat_alternates_medium</item>
+    </style>
 
     <style name="StyleListRecipeTitle" parent="StyleTitle14">
         <item name="android:textColor">@color/recipeListTextColor</item>
@@ -15,14 +25,13 @@
     <style name="StyleTitle20" parent="StyleTitle14">
         <item name="android:textSize">@dimen/text_size_20</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:padding">@dimen/padding_10</item>
     </style>
 
     <style name="StyleNavButton" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/StyleTitle14</item>
-        <item name="android:paddingVertical">@dimen/padding_10</item>
-        <item name="android:paddingHorizontal">@dimen/padding_20</item>
-        <item name="cornerRadius">@dimen/margin_8</item>
+        <item name="android:paddingVertical">@dimen/indent_10</item>
+        <item name="android:paddingHorizontal">@dimen/indent_20</item>
+        <item name="cornerRadius">@dimen/indent_8</item>
     </style>
 
 </resources>

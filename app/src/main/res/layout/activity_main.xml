@@ -21,8 +21,8 @@
         android:id="@+id/llButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_16"
-        android:layout_marginBottom="@dimen/margin_8"
+        android:layout_marginHorizontal="@dimen/indent_16"
+        android:layout_marginBottom="@dimen/indent_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -32,7 +32,7 @@
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_2"
+            android:layout_marginEnd="@dimen/indent_2"
             android:layout_weight="1"
             android:backgroundTint="@color/categoryBackgroundColor"
             android:text="@string/title_category" />
@@ -42,7 +42,7 @@
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_2"
+            android:layout_marginStart="@dimen/indent_2"
             android:layout_weight="1"
             android:backgroundTint="@color/favouritesBackgroundColor"
             android:text="@string/title_favourites"
