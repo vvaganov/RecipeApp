@@ -6,9 +6,9 @@
     tools:context=".RecipeFragment">
 
     <TextView
+        android:id="@+id/tvRecipeTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Здесь будет рецепт Бургера"
         tools:text="Fragment recipe" />
 
 </FrameLayout>

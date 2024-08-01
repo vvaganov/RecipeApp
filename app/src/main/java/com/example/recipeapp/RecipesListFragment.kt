@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.blue
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
@@ -61,7 +63,7 @@ class RecipesListFragment : Fragment() {
         recipesListBinding.rvRecipeList.adapter = customAdapter
         customAdapter.setOnItemClickListener(
             object : RecipeListAdapter.OnItemClickListener {
-                override fun onItemClick(recipeId:Int) {
+                override fun onItemClick(recipeId: Int) {
                     openRecipeByRecipeId(recipeId)
                 }
             }
@@ -74,9 +76,12 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
+        val recipe = STUB.getRecipeById(recipeId)
+        val bundle = Bundle()
+        bundle.putParcelable(ARG_RECIPE, recipe)
         parentFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<RecipeFragment>(R.id.mainContainer)
+            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
         }
     }
 }
