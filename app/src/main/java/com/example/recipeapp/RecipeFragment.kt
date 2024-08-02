@@ -8,12 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
-
 
 class RecipeFragment : Fragment() {
 
@@ -26,15 +23,15 @@ class RecipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return recipeBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecipeArguments()
-        initUi()
-        initRecycler(view)
+        initUI()
+        initRecycler()
     }
 
     private fun initRecipeArguments() {
@@ -45,27 +42,30 @@ class RecipeFragment : Fragment() {
         }
     }
 
-    private fun initRecycler(view: View) {
+    private fun initRecycler() {
         val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
         val customAdapterMethod = MethodAdapter(recipe?.method)
         with(recipeBinding) {
             rvIngredients.adapter = customAdapterIngredient
             rvMethod.adapter = customAdapterMethod
         }
-        val recyclerViewIngredient = view.findViewById<RecyclerView>(R.id.rvIngredients)
-        val recyclerViewMethod = view.findViewById<RecyclerView>(R.id.rvMethod)
-        val divider =
-            context?.let { MaterialDividerItemDecoration(it, LinearLayoutManager.VERTICAL) }
-        divider?.dividerInsetStart = 12
-        divider?.dividerInsetEnd = 12
-        divider?.isLastItemDecorated = false
-        if (divider != null) {
-            recyclerViewIngredient?.addItemDecoration(divider)
-            recyclerViewMethod?.addItemDecoration(divider)
-        }
+        val recyclerViewIngredient = recipeBinding.rvIngredients
+        val recyclerViewMethod = recipeBinding.rvMethod
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+        val sizeInDp = resources.getDimensionPixelSize(R.dimen.indent_8)
+        val color = resources.getColor(R.color.dividerLineColor, null)
+        divider.dividerColor = color
+        divider.dividerInsetStart = sizeInDp
+        divider.dividerInsetEnd = sizeInDp
+        divider.isLastItemDecorated = false
+        recyclerViewIngredient.addItemDecoration(divider)
+        recyclerViewMethod.addItemDecoration(divider)
     }
 
-    private fun initUi() {
+    private fun initUI() {
         with(recipeBinding) {
             tvRecipeTitle.text = recipe?.title
             try {

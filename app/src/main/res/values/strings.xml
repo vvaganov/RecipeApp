@@ -2,4 +2,6 @@
     <string name="app_name" translatable="false">RecipeApp</string>
     <string name="title_category">Категории</string>
     <string name="title_favourites">Избранное</string>
+    <string name="title_ingredient">Ингредиенты</string>
+    <string name="title_portions">Порции</string>
 </resources>

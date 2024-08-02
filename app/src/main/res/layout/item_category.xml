@@ -34,7 +34,6 @@
                 style="@style/StyleTitle14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineHeight="@dimen/text_size_16"
                 android:textColor="@color/black"
                 tools:text="Бургеры" />
 
@@ -43,9 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/indent_8"
-                android:fontFamily="@font/montserrat_alternates_medium"
-                android:lineHeight="@dimen/text_size_16"
-                android:textSize="@dimen/text_size_12"
+                style="@style/StyleDescriptionCategory"
                 tools:text="Рецепты всех популярных видов бургеров" />
         </LinearLayout>
 
