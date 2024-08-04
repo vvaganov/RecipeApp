@@ -53,7 +53,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/indent_8"
                 android:orientation="vertical">
@@ -65,12 +65,34 @@
                     android:layout_marginBottom="@dimen/indent_6"
                     android:text="@string/title_ingredient" />
 
-                <TextView
-                    style="@style/StyleTitle16"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/indent_6">
+
+                    <TextView
+                        style="@style/StyleTitle16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_portions" />
+
+                    <TextView
+                        android:id="@+id/tvNumberOfServings"
+                        style="@style/StyleTitle16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/indent_6"
+                        android:text="1" />
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sbNumberOfServings"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/indent_6"
-                    android:text="@string/title_portions" />
+                    android:max="5"
+                    android:min="1"/>
+
 
             </LinearLayout>
 
