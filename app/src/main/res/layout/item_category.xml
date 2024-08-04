@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/margin_8"
-    android:layout_marginVertical="@dimen/margin_8"
+    android:layout_marginHorizontal="@dimen/indent_8"
+    android:layout_marginVertical="@dimen/indent_8"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/margin_8"
+    app:cardCornerRadius="@dimen/indent_8"
     tools:ignore="MissingConstraints">
 
     <LinearLayout
@@ -27,14 +27,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/margin_8">
+            android:padding="@dimen/indent_8">
 
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/StyleTitle14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineHeight="@dimen/text_size_16"
                 android:textColor="@color/black"
                 tools:text="Бургеры" />
 
@@ -42,10 +41,8 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:fontFamily="@font/montserrat_alternates_medium"
-                android:lineHeight="@dimen/text_size_16"
-                android:textSize="@dimen/text_size_12"
+                android:layout_marginTop="@dimen/indent_8"
+                style="@style/StyleDescriptionCategory"
                 tools:text="Рецепты всех популярных видов бургеров" />
         </LinearLayout>
 
