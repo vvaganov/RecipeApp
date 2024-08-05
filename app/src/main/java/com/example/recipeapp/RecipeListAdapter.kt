@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.databinding.ItemRecipeBinding
 import java.io.InputStream
 
 class RecipeListAdapter(private val dataSet: List<Recipe>) :
@@ -24,8 +25,9 @@ class RecipeListAdapter(private val dataSet: List<Recipe>) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageViewTitle: ImageView = view.findViewById(R.id.imgRecipeList)
-        val textViewTitle: TextView = view.findViewById(R.id.tvRecipeListTitle)
+        private val binding = ItemRecipeBinding.bind(view)
+        val imageViewTitle: ImageView = binding.imgRecipeList
+        val textViewTitle: TextView = binding.tvRecipeListTitle
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
