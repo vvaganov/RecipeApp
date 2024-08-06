@@ -15,7 +15,7 @@ import kotlin.math.abs
 class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
-    private var quantity = BigDecimal("1")
+    private var quantity = 1
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemIngredientBinding.bind(view)
@@ -33,18 +33,22 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
     @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val recipe = dataSet?.get(position)
-        val quantityResult = BigDecimal(recipe?.quantity).times(quantity)
-        val remainderDivision = quantityResult.rem(BigDecimal(1))
+        val totalQuantity = BigDecimal(recipe?.quantity) * BigDecimal(quantity)
+
+        val displayQuantity = totalQuantity
+            .setScale(1, RoundingMode.HALF_UP)
+            .stripTrailingZeros()
+            .toPlainString()
 
         with(viewHolder) {
             textIngredientViewTitle.text = recipe?.description
             textUnitOfMeasureViewTitle.text =
-                quantityResult.toString() + " " + recipe?.unitOfMeasure
+                displayQuantity.toString() + " " + recipe?.unitOfMeasure
         }
     }
 
     fun updateIngredients(process: Int) {
-        quantity = process.toBigDecimal()
+        quantity = process
     }
 
     override fun getItemCount() = dataSet?.size ?: 0
