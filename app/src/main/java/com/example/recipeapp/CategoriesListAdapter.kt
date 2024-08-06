@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
@@ -24,9 +25,11 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageViewTitle: ImageView = view.findViewById(R.id.imgCategoryList)
-        val textViewTitle: TextView = view.findViewById(R.id.tvTitle)
-        val textViewDescription: TextView = view.findViewById(R.id.tvDescription)
+
+        private val binding = ItemCategoryBinding.bind(view)
+        val imageViewTitle: ImageView = binding.imgCategoryList
+        val textViewTitle: TextView = binding.tvTitle
+        val textViewDescription: TextView = binding.tvDescription
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {

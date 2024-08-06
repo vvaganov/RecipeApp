@@ -1,5 +1,6 @@
 package com.example.recipeapp
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
@@ -49,6 +51,25 @@ class RecipeFragment : Fragment() {
             rvIngredients.adapter = customAdapterIngredient
             rvMethod.adapter = customAdapterMethod
         }
+        val seekBar = recipeBinding.sbNumberOfServings
+        seekBar.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    customAdapterIngredient.notifyDataSetChanged()
+                    customAdapterIngredient.updateIngredients(progress)
+                    recipeBinding.tvNumberOfServings.text = progress.toString()
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            }
+        )
         val recyclerViewIngredient = recipeBinding.rvIngredients
         val recyclerViewMethod = recipeBinding.rvMethod
         val divider = MaterialDividerItemDecoration(
