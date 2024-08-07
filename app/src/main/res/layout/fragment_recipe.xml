@@ -88,11 +88,11 @@
 
                 <SeekBar
                     android:id="@+id/sbNumberOfServings"
+                    style="@style/styleSeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:max="5"
-                    android:min="1"/>
-
+                    android:min="1" />
 
             </LinearLayout>
 
