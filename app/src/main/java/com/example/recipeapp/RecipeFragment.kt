@@ -8,8 +8,11 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.view.marginLeft
+import androidx.core.view.setPadding
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
@@ -72,6 +75,8 @@ class RecipeFragment : Fragment() {
         )
         val recyclerViewIngredient = recipeBinding.rvIngredients
         val recyclerViewMethod = recipeBinding.rvMethod
+        val ingredientListLeanerLayout = recipeBinding.llIngredientList
+        ingredientListLeanerLayout.setPaddingRelative(16, 0, 16, 0)
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL
@@ -87,6 +92,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
+        var flag: Boolean
         with(recipeBinding) {
             tvRecipeTitle.text = recipe?.title
             try {
@@ -96,6 +102,12 @@ class RecipeFragment : Fragment() {
                 imgRecipe.setImageDrawable(drawable)
             } catch (e: Exception) {
                 Log.e("!!!", e.stackTrace.toString())
+            }
+
+            imgFavorites.setImageResource(R.drawable.ic_heart_empty)
+
+            imgFavorites.setOnClickListener {
+                imgFavorites.setImageResource(R.drawable.ic_heart)
             }
         }
     }
