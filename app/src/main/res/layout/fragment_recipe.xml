@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <ImageView
                 android:id="@+id/imgRecipe"
                 android:layout_width="match_parent"
@@ -26,6 +27,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bcg_categories" />
+
+            <ImageButton
+                android:id="@+id/imgFavorites"
+                android:layout_width="@dimen/size_image_favorites"
+                android:layout_height="@dimen/size_image_favorites"
+                android:layout_marginTop="@dimen/indent_16"
+                android:layout_marginEnd="@dimen/indent_16"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:scaleType="centerCrop"
+                tools:src="@drawable/ic_heart_empty" />
 
             <TextView
                 android:id="@+id/tvRecipeTitle"
@@ -47,15 +61,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/llIngredientList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/indent_8"
+            android:layout_marginHorizontal="@dimen/indent_16"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/llSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/indent_8"
+                android:layout_marginVertical="@dimen/indent_16"
                 android:orientation="vertical">
 
                 <TextView
@@ -100,9 +116,8 @@
                 android:id="@+id/rvIngredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/indent_8"
                 android:background="@drawable/shape_list_ingredient"
-                android:padding="@dimen/indent_4"
+                android:padding="@dimen/indent_12"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="8"
                 tools:listitem="@layout/item_ingredient" />
@@ -111,16 +126,15 @@
                 style="@style/StyleTitle20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/indent_8"
+                android:layout_marginVertical="@dimen/indent_16"
                 android:text="Способ приготовления" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/indent_8"
                 android:background="@drawable/shape_list_ingredient"
-                android:padding="@dimen/indent_4"
+                android:padding="@dimen/indent_12"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="8"
                 tools:listitem="@layout/item_method" />
