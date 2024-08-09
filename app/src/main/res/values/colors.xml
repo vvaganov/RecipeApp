@@ -9,4 +9,6 @@
     <color name="ingredientsListTextColor">#666666</color>
     <color name="numberOfServings">#626466</color>
     <color name="dividerLineColor">#F5F5F5</color>
+    <color name="seekbarProgressColor">#A1A9F9</color>
+    <color name="seekbarThumbColor">#525DC0</color>
 </resources>
