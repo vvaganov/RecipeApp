@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="indent_0">0dp</dimen>
     <dimen name="indent_16">16dp</dimen>
     <dimen name="indent_8">8dp</dimen>
     <dimen name="indent_2">2dp</dimen>
@@ -19,6 +20,5 @@
     <dimen name="height_image_category_list">130dp</dimen>
     <dimen name="height_image_recipe_list">100dp</dimen>
     <dimen name="size_image_favorites">40dp</dimen>
-
 
 </resources>

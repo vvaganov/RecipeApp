@@ -29,7 +29,7 @@
                 tools:src="@drawable/bcg_categories" />
 
             <ImageButton
-                android:id="@+id/imgFavorites"
+                android:id="@+id/ibFavorites"
                 android:layout_width="@dimen/size_image_favorites"
                 android:layout_height="@dimen/size_image_favorites"
                 android:layout_marginTop="@dimen/indent_16"
@@ -64,8 +64,8 @@
             android:id="@+id/llIngredientList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/indent_16"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:paddingHorizontal="@dimen/indent_16">
 
             <LinearLayout
                 android:id="@+id/llSeekBar"

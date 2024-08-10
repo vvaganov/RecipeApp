@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.View.resolveSize
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.marginLeft
@@ -55,6 +56,8 @@ class RecipeFragment : Fragment() {
             rvMethod.adapter = customAdapterMethod
         }
         val seekBar = recipeBinding.sbNumberOfServings
+
+        seekBar.setPadding(resources.getDimensionPixelSize(R.dimen.indent_0))
         seekBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 @SuppressLint("NotifyDataSetChanged")
@@ -76,7 +79,8 @@ class RecipeFragment : Fragment() {
         val recyclerViewIngredient = recipeBinding.rvIngredients
         val recyclerViewMethod = recipeBinding.rvMethod
         val ingredientListLeanerLayout = recipeBinding.llIngredientList
-        ingredientListLeanerLayout.setPaddingRelative(16, 0, 16, 0)
+        val paddingSizeDp = resources.getDimensionPixelSize(R.dimen.indent_16)
+        ingredientListLeanerLayout.setPaddingRelative(paddingSizeDp, 0, paddingSizeDp, 0)
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL
@@ -104,10 +108,10 @@ class RecipeFragment : Fragment() {
                 Log.e("!!!", e.stackTrace.toString())
             }
 
-            imgFavorites.setImageResource(R.drawable.ic_heart_empty)
+            ibFavorites.setImageResource(R.drawable.ic_heart_empty)
 
-            imgFavorites.setOnClickListener {
-                imgFavorites.setImageResource(R.drawable.ic_heart)
+            ibFavorites.setOnClickListener {
+                ibFavorites.setImageResource(R.drawable.ic_heart)
             }
         }
     }
