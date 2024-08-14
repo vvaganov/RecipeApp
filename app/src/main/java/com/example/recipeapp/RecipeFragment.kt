@@ -8,8 +8,12 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
+import android.view.View.resolveSize
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.view.marginLeft
+import androidx.core.view.setPadding
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
@@ -52,6 +56,8 @@ class RecipeFragment : Fragment() {
             rvMethod.adapter = customAdapterMethod
         }
         val seekBar = recipeBinding.sbNumberOfServings
+
+        seekBar.setPadding(resources.getDimensionPixelSize(R.dimen.indent_0))
         seekBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 @SuppressLint("NotifyDataSetChanged")
@@ -72,6 +78,9 @@ class RecipeFragment : Fragment() {
         )
         val recyclerViewIngredient = recipeBinding.rvIngredients
         val recyclerViewMethod = recipeBinding.rvMethod
+        val ingredientListLeanerLayout = recipeBinding.llIngredientList
+        val paddingSizeDp = resources.getDimensionPixelSize(R.dimen.indent_16)
+        ingredientListLeanerLayout.setPaddingRelative(paddingSizeDp, 0, paddingSizeDp, 0)
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL
@@ -87,6 +96,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
+        var flag: Boolean
         with(recipeBinding) {
             tvRecipeTitle.text = recipe?.title
             try {
@@ -96,6 +106,12 @@ class RecipeFragment : Fragment() {
                 imgRecipe.setImageDrawable(drawable)
             } catch (e: Exception) {
                 Log.e("!!!", e.stackTrace.toString())
+            }
+
+            ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+
+            ibFavorites.setOnClickListener {
+                ibFavorites.setImageResource(R.drawable.ic_heart)
             }
         }
     }
