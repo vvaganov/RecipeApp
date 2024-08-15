@@ -1,6 +1,8 @@
 package com.example.recipeapp
 
 import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -8,15 +10,16 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
-import android.view.View.resolveSize
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.core.view.marginLeft
 import androidx.core.view.setPadding
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
+import kotlin.collections.MutableSet
+
+const val PREF_FAVORITE_KEY = "favoritesId"
+const val PREF_FILE_NAME = "preferencesFavoritesId"
 
 class RecipeFragment : Fragment() {
 
@@ -96,7 +99,10 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-        var flag: Boolean
+
+        var flag: Boolean = false
+        val favoritesIdSet = getFavorites().toList()
+
         with(recipeBinding) {
             tvRecipeTitle.text = recipe?.title
             try {
@@ -108,11 +114,41 @@ class RecipeFragment : Fragment() {
                 Log.e("!!!", e.stackTrace.toString())
             }
 
-            ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+            if (favoritesIdSet.contains(recipe?.id.toString()))
+                ibFavorites.setImageResource(R.drawable.ic_heart)
+            else
+                ibFavorites.setImageResource(R.drawable.ic_heart_empty)
 
             ibFavorites.setOnClickListener {
-                ibFavorites.setImageResource(R.drawable.ic_heart)
+                if (!flag) {
+                    flag = true
+                    ibFavorites.setImageResource(R.drawable.ic_heart)
+                    val favoriteSet = getFavorites()
+                    val newSet = favoriteSet.plus(recipe?.id.toString())
+                    setFavorites(newSet)
+                } else {
+                    flag = false
+                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                    val favoriteSet = getFavorites()
+                    val newSet = favoriteSet.minus(recipe?.id.toString())
+                    setFavorites(newSet)
+                }
             }
         }
+    }
+
+    private fun setFavorites(setFavoriteId: Set<String>?) {
+        val sharedPref =
+            activity?.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
+                ?: return
+        sharedPref.edit()?.putStringSet(PREF_FAVORITE_KEY, setFavoriteId)?.apply()
+    }
+
+    private fun getFavorites(): MutableSet<String> {
+        val sharedPref =
+            activity?.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
+        val setId = sharedPref?.getStringSet(PREF_FAVORITE_KEY, emptySet())
+        val mutableSteId = HashSet<String>(setId)
+        return mutableSteId
     }
 }
