@@ -4,5 +4,4 @@
     <string name="title_favourites">Избранное</string>
     <string name="title_ingredient">Ингредиенты</string>
     <string name="title_portions">Порции:</string>
-    <string name="preferencesFavoritesId">PreferencesFavoritesId</string>
 </resources>

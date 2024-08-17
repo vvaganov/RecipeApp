@@ -18,9 +18,6 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 import kotlin.collections.MutableSet
 
-const val PREF_FAVORITE_KEY = "favoritesId"
-const val PREF_FILE_NAME = "preferencesFavoritesId"
-
 class RecipeFragment : Fragment() {
 
     private val recipeBinding: FragmentRecipeBinding by lazy {
@@ -100,9 +97,6 @@ class RecipeFragment : Fragment() {
 
     private fun initUI() {
 
-        var flag: Boolean = false
-        val favoritesIdSet = getFavorites().toList()
-
         with(recipeBinding) {
             tvRecipeTitle.text = recipe?.title
             try {
@@ -114,20 +108,20 @@ class RecipeFragment : Fragment() {
                 Log.e("!!!", e.stackTrace.toString())
             }
 
-            if (favoritesIdSet.contains(recipe?.id.toString()))
+            val isFavorite = getFavorites().toList().contains(recipe?.id.toString())
+
+            if (isFavorite)
                 ibFavorites.setImageResource(R.drawable.ic_heart)
             else
                 ibFavorites.setImageResource(R.drawable.ic_heart_empty)
 
             ibFavorites.setOnClickListener {
-                if (!flag) {
-                    flag = true
+                if (!getFavorites().toList().contains(recipe?.id.toString())) {
                     ibFavorites.setImageResource(R.drawable.ic_heart)
                     val favoriteSet = getFavorites()
                     val newSet = favoriteSet.plus(recipe?.id.toString())
                     setFavorites(newSet)
                 } else {
-                    flag = false
                     ibFavorites.setImageResource(R.drawable.ic_heart_empty)
                     val favoriteSet = getFavorites()
                     val newSet = favoriteSet.minus(recipe?.id.toString())
