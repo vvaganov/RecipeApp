@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favourites_Fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appBackgroundColor"
+    android:orientation="vertical"
     tools:context=".FavoritesFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title_image">
+
+        <ImageView
+            android:id="@+id/imgFavoriteList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bcg_favorites"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFavoritesList"
+            style="@style/StyleTitle20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/indent_16"
+            android:layout_marginEnd="@dimen/indent_16"
+            android:layout_marginBottom="@dimen/indent_16"
+            android:background="@drawable/shape_header_category"
+            android:padding="@dimen/indent_10"
+            android:text="@string/favorite_list_title"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
+        android:id="@+id/tvEmptyFavoriteList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Вы пока не добавили ни одного рецепта в избрнное" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecipeFavoritesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FavouriteFragment" />
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/indent_8"
+        android:layout_marginVertical="@dimen/indent_8"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_recipe" />
 
-</FrameLayout>
+</LinearLayout>
