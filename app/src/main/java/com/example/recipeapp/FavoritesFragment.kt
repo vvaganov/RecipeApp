@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
@@ -33,7 +32,7 @@ class FavoritesFragment : Fragment() {
         val favoriteRecipeList = STUB.getRecipesByIds(favoritesRecipeSetId)
         if (favoriteRecipeList.none()) {
             favoriteFragmentBinding.tvEmptyFavoriteList.text =
-                getString(R.string.empty_favorite_list_messege)
+                getString(R.string.empty_favorite_list_message)
 
         } else {
             favoriteFragmentBinding.tvEmptyFavoriteList.visibility = View.GONE

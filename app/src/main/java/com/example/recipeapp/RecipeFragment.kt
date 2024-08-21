@@ -2,7 +2,6 @@ package com.example.recipeapp
 
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle

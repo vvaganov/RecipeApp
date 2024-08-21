@@ -32,7 +32,7 @@
             android:layout_marginBottom="@dimen/indent_16"
             android:background="@drawable/shape_header_category"
             android:padding="@dimen/indent_10"
-            android:text="@string/favorite_list_title"
+            android:text="@string/title_favourites"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,21 +40,39 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvEmptyFavoriteList"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        tools:text="Вы пока не добавили ни одного рецепта в избрнное" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipeFavoritesList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/indent_8"
-        android:layout_marginVertical="@dimen/indent_8"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_recipe" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecipeFavoritesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/indent_8"
+            android:layout_marginVertical="@dimen/indent_8"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_recipe"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvEmptyFavoriteList"
+            style="@style/StyleFavoritesEmptyListMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/indent_8"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/empty_favorite_list_message" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>
