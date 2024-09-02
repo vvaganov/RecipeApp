@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.recipe
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemIngredientBinding
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.math.RoundingMode
-import kotlin.math.abs
 
 class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
