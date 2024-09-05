@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemCategoryBinding
+import com.example.recipeapp.model.Category
 import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :

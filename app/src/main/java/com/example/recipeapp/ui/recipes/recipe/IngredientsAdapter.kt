@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemIngredientBinding
+import com.example.recipeapp.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 

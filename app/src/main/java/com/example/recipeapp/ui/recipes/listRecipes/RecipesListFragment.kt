@@ -14,7 +14,7 @@ import com.example.recipeapp.ARG_CATEGORY_IMAGE_URL
 import com.example.recipeapp.ARG_CATEGORY_NAME
 import com.example.recipeapp.ARG_RECIPE
 import com.example.recipeapp.R
-import com.example.recipeapp.ui.recipes.recipe.Recipe
+import com.example.recipeapp.model.Recipe
 import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
 import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipesListBinding

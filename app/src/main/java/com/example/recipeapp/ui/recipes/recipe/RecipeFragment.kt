@@ -16,6 +16,7 @@ import com.example.recipeapp.PREF_FAVORITE_KEY
 import com.example.recipeapp.PREF_FILE_NAME
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.example.recipeapp.model.Recipe
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 import kotlin.collections.MutableSet

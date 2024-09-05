@@ -1,22 +1,15 @@
 package com.example.recipeapp.ui.recipes.recipe
 
-import android.widget.SeekBar
 import androidx.lifecycle.ViewModel
 import com.example.recipeapp.R
+import com.example.recipeapp.model.Recipe
 
-data class RecipeUiState(
+class RecipeViewModel : ViewModel() {
 
-    val imageTitle: String? = null,
-    val recipeTitle: Int? = null,
-    val isFavorites: Int = R.drawable.ic_heart_empty,
-    val ingredientsTitle: Int = R.string.title_ingredient,
-    val servingTitle: Int = R.string.title_portions,
-    val numberServings: String = "1",
-    val seekBar: SeekBar? = null,
-    val ingredientsList: List<Ingredient> = emptyList(),
-    val cookingMethod: Int = R.string.cooking_method,
-    val methodList: List<String> = emptyList(),
+    data class RecipeUiState(
 
-)
-
-class RecipeViewModel: ViewModel()
+        val recipe: Recipe? = null,
+        val isFavorites: Boolean = false,
+        val numberServings: String = "1"
+    )
+}

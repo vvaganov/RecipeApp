@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemRecipeBinding
-import com.example.recipeapp.ui.recipes.recipe.Recipe
+import com.example.recipeapp.model.Recipe
 import java.io.InputStream
 
 class RecipeListAdapter(private val dataSet: List<Recipe>) :
