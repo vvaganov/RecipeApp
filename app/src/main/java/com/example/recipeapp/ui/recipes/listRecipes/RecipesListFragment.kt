@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.listRecipes
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -7,10 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.blue
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.recipeapp.ARG_CATEGORY_ID
+import com.example.recipeapp.ARG_CATEGORY_IMAGE_URL
+import com.example.recipeapp.ARG_CATEGORY_NAME
+import com.example.recipeapp.ARG_RECIPE
+import com.example.recipeapp.R
+import com.example.recipeapp.model.Recipe
+import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
+import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 import java.io.InputStream
 

@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.favorites
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -8,6 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.recipeapp.ARG_RECIPE
+import com.example.recipeapp.PREF_FAVORITE_KEY
+import com.example.recipeapp.PREF_FILE_NAME
+import com.example.recipeapp.R
+import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
+import com.example.recipeapp.ui.recipes.listRecipes.RecipeListAdapter
+import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {

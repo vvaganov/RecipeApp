@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.recipes.recipe
 
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
@@ -12,7 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.setPadding
+import com.example.recipeapp.PREF_FAVORITE_KEY
+import com.example.recipeapp.PREF_FILE_NAME
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.example.recipeapp.model.Recipe
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 import kotlin.collections.MutableSet
