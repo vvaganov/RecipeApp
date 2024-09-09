@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.setPadding
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.recipeapp.PREF_FAVORITE_KEY
 import com.example.recipeapp.PREF_FILE_NAME
 import com.example.recipeapp.R
@@ -22,6 +24,8 @@ import java.io.InputStream
 import kotlin.collections.MutableSet
 
 class RecipeFragment : Fragment() {
+
+    private val viewModel: RecipeViewModel by activityViewModels()
 
     private val recipeBinding: FragmentRecipeBinding by lazy {
         FragmentRecipeBinding.inflate(layoutInflater)
@@ -41,6 +45,10 @@ class RecipeFragment : Fragment() {
         initRecipeArguments()
         initUI()
         initRecycler()
+        val recipeObserver = Observer<RecipeViewModel.RecipeUiState?> { it ->
+            Log.i("!!!", "observerWork-${it?.isFavorites}")
+        }
+        viewModel.selectedRecipe.observe(viewLifecycleOwner, recipeObserver)
     }
 
     private fun initRecipeArguments() {
