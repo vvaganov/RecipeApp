@@ -1,31 +1,31 @@
 package com.example.recipeapp.ui.recipes.recipe
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.recipeapp.model.Recipe
 
 class RecipeViewModel : ViewModel() {
 
-    private val mutableSelectedRecipe = MutableLiveData<RecipeUiState?>()
-    val selectedRecipe: MutableLiveData<RecipeUiState?> get() = mutableSelectedRecipe
+    private val _recipeState = MutableLiveData(RecipeUiState())
+    val recipeState: LiveData<RecipeUiState?> get() = _recipeState
 
     private fun setRecipeUi(recipeUiState: RecipeUiState?) {
-        mutableSelectedRecipe.value = recipeUiState
+        _recipeState.value = recipeUiState
     }
 
     private val recipeUiState = RecipeUiState()
 
     init {
-        setRecipeUi(recipeUiState)
-        Log.i("!!!", "workViewModel-${mutableSelectedRecipe.value?.isFavorites}")
+        Log.i("!!!", "workViewModel-${_recipeState.value?.isFavorites}")
         setRecipeUi(recipeUiState.copy(isFavorites = true))
     }
 
     data class RecipeUiState(
 
         val recipe: Recipe? = null,
-        var isFavorites: Boolean = false,
+        val isFavorites: Boolean = false,
         val numberServings: Int = 1
     )
 }

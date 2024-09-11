@@ -45,10 +45,9 @@ class RecipeFragment : Fragment() {
         initRecipeArguments()
         initUI()
         initRecycler()
-        val recipeObserver = Observer<RecipeViewModel.RecipeUiState?> { it ->
+        viewModel.recipeState.observe(viewLifecycleOwner) { it ->
             Log.i("!!!", "observerWork-${it?.isFavorites}")
         }
-        viewModel.selectedRecipe.observe(viewLifecycleOwner, recipeObserver)
     }
 
     private fun initRecipeArguments() {
