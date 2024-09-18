@@ -24,9 +24,9 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         val isFavorite = getFavorites().toList().contains(recipeId.toString())
         val recipe = STUB.getRecipeById(recipeId)
         if (isFavorite) {
-            setRecipeUi(_recipeState.value?.copy(recipe =  recipe, isFavorites = true))
+            setRecipeUi(_recipeState.value?.copy(recipe = recipe, isFavorites = true))
         } else {
-            setRecipeUi(_recipeState.value?.copy(recipe =  recipe, isFavorites = false))
+            setRecipeUi(_recipeState.value?.copy(recipe = recipe, isFavorites = false))
         }
     }
 

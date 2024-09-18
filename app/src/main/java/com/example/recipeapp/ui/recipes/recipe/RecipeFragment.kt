@@ -28,7 +28,6 @@ class RecipeFragment : Fragment() {
 
     private var recipeId: Int? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,17 +39,16 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecipeIdArguments()
         initUI()
-        initRecycler()
     }
 
     private fun initRecipeIdArguments() {
         recipeId = arguments?.getInt(ARG_RECIPE_ID)
     }
 
-    private fun initRecycler() {
-        val recipe = STUB.getRecipeById(recipeId)
-        val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
-        val customAdapterMethod = MethodAdapter(recipe?.method)
+    private fun initRecycler(
+        customAdapterIngredient: IngredientsAdapter,
+        customAdapterMethod: MethodAdapter
+    ) {
         with(recipeBinding) {
             rvIngredients.adapter = customAdapterIngredient
             rvMethod.adapter = customAdapterMethod
@@ -99,28 +97,29 @@ class RecipeFragment : Fragment() {
 
         viewModel.loadRecipe(recipeId)
 
-        viewModel.recipeState.observe(viewLifecycleOwner) { it ->
+        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            val recipe = state?.recipe
+            val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
+            val customAdapterMethod = MethodAdapter(recipe?.method)
+            initRecycler(customAdapterIngredient, customAdapterMethod)
             with(recipeBinding) {
-                tvRecipeTitle.text = it?.recipe?.title
-
+                tvRecipeTitle.text = recipe?.title
                 try {
                     val inputStream: InputStream? =
-                        context?.assets?.open("${it?.recipe?.imageUrl}")
+                        context?.assets?.open("${recipe?.imageUrl}")
                     val drawable = Drawable.createFromStream(inputStream, null)
                     imgRecipe.setImageDrawable(drawable)
                 } catch (e: Exception) {
                     Log.e("!!!", e.stackTrace.toString())
                 }
 
-                if (it?.isFavorites == true)
+                if (state?.isFavorites == true)
                     ibFavorites.setImageResource(R.drawable.ic_heart)
                 else
                     ibFavorites.setImageResource(R.drawable.ic_heart_empty)
-
                 ibFavorites.setOnClickListener {
-                    viewModel.onFavoritesClicked(recipeId)
+                    viewModel.onFavoritesClicked(recipe?.id)
                 }
-
             }
         }
     }
