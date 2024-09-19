@@ -26,7 +26,8 @@ class RecipeFragment : Fragment() {
         FragmentRecipeBinding.inflate(layoutInflater)
     }
 
-    private var recipeId: Int? = null
+    private val recipeId: Int
+        get() = arguments?.getInt(ARG_RECIPE_ID) ?: throw IllegalArgumentException("argument is null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,12 +38,7 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecipeIdArguments()
         initUI()
-    }
-
-    private fun initRecipeIdArguments() {
-        recipeId = arguments?.getInt(ARG_RECIPE_ID)
     }
 
     private fun initRecycler(
