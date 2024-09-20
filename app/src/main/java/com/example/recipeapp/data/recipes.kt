@@ -240,7 +240,7 @@ object STUB {
 
     fun getRecipe() = burgerRecipes
 
-    fun getRecipeById(id: Int): Recipe? {
+    fun getRecipeById(id: Int?): Recipe? {
         return burgerRecipes.find { it.id == id }
     }
 

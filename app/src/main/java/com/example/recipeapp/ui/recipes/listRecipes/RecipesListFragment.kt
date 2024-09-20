@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.recipeapp.ARG_CATEGORY_ID
 import com.example.recipeapp.ARG_CATEGORY_IMAGE_URL
 import com.example.recipeapp.ARG_CATEGORY_NAME
 import com.example.recipeapp.ARG_RECIPE
+import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
 import com.example.recipeapp.model.Recipe
 import com.example.recipeapp.ui.recipes.recipe.RecipeFragment
@@ -34,7 +36,7 @@ class RecipesListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return recipesListBinding.root
     }
 
@@ -82,9 +84,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipe = STUB.getRecipeById(recipeId)
-        val bundle = Bundle()
-        bundle.putParcelable(ARG_RECIPE, recipe)
+        val bundle = bundleOf(ARG_RECIPE_ID to recipeId)
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
