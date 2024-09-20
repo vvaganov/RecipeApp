@@ -98,16 +98,12 @@ class RecipeFragment : Fragment() {
             val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
             val customAdapterMethod = MethodAdapter(recipe?.method)
             initRecycler(customAdapterIngredient, customAdapterMethod)
+
+
             with(recipeBinding) {
                 tvRecipeTitle.text = recipe?.title
-                try {
-                    val inputStream: InputStream? =
-                        context?.assets?.open("${recipe?.imageUrl}")
-                    val drawable = Drawable.createFromStream(inputStream, null)
-                    imgRecipe.setImageDrawable(drawable)
-                } catch (e: Exception) {
-                    Log.e("!!!", e.stackTrace.toString())
-                }
+
+                imgRecipe.setImageDrawable(state?.recipeImage)
 
                 if (state?.isFavorites == true)
                     ibFavorites.setImageResource(R.drawable.ic_heart)
