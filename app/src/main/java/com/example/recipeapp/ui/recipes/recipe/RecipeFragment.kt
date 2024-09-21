@@ -1,22 +1,18 @@
 package com.example.recipeapp.ui.recipes.recipe
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.setPadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import java.io.InputStream
 
 class RecipeFragment : Fragment() {
 
@@ -27,7 +23,8 @@ class RecipeFragment : Fragment() {
     }
 
     private val recipeId: Int
-        get() = arguments?.getInt(ARG_RECIPE_ID) ?: throw IllegalArgumentException("argument is null")
+        get() = arguments?.getInt(ARG_RECIPE_ID)
+            ?: throw IllegalArgumentException("argument is null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

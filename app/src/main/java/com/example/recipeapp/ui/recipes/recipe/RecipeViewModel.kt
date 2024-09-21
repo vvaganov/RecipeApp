@@ -18,27 +18,25 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     private val _recipeState = MutableLiveData(RecipeUiState())
     val recipeState: LiveData<RecipeUiState?> get() = _recipeState
 
-    private fun setRecipeUi(recipeUiState: RecipeUiState?) {
-        _recipeState.value = recipeUiState
-    }
-
     fun loadRecipe(recipeId: Int?) {
         //TODO `load from network`
         val isFavorite = getFavorites().toList().contains(recipeId.toString())
         val recipe = STUB.getRecipeById(recipeId)
-        if (isFavorite) {
-            setRecipeUi(_recipeState.value?.copy(recipe = recipe, isFavorites = true))
-        } else {
-            setRecipeUi(_recipeState.value?.copy(recipe = recipe, isFavorites = false))
-        }
+        var drawable: Drawable? = null
+
         try {
             val inputStream: InputStream? =
                 application.assets?.open("${recipe?.imageUrl}")
-            val drawable = Drawable.createFromStream(inputStream, null)
-            setRecipeUi(_recipeState.value?.copy(recipeImage = drawable))
+            drawable = Drawable.createFromStream(inputStream, null)
         } catch (e: Exception) {
             Log.e("!!!", e.stackTrace.toString())
+            _recipeState.value = _recipeState.value?.copy(recipeImage = null)
         }
+        _recipeState.value = _recipeState.value?.copy(
+            recipe = recipe,
+            isFavorites = isFavorite,
+            recipeImage = drawable
+        )
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -55,17 +53,16 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun onFavoritesClicked(recipeId: Int?) {
-        if (!getFavorites().toList().contains(recipeId.toString())) {
-            val favoriteSet = getFavorites()
-            val newSet = favoriteSet.plus(recipeId.toString())
-            setFavorites(newSet)
-            setRecipeUi(_recipeState.value?.copy(isFavorites = true))
+        var isFavorites = getFavorites().toList().contains(recipeId.toString())
+        val favoriteSet = getFavorites()
+        val newSet = if (isFavorites) {
+            favoriteSet.minus(recipeId.toString())
         } else {
-            val favoriteSet = getFavorites()
-            val newSet = favoriteSet.minus(recipeId.toString())
-            setFavorites(newSet)
-            setRecipeUi(_recipeState.value?.copy(isFavorites = false))
+            favoriteSet.plus(recipeId.toString())
         }
+        setFavorites(newSet)
+        isFavorites = getFavorites().toList().contains(recipeId.toString())
+        _recipeState.value = _recipeState.value?.copy(isFavorites = isFavorites)
     }
 
     data class RecipeUiState(
