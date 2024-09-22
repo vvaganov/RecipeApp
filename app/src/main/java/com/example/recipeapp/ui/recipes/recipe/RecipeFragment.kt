@@ -67,11 +67,15 @@ class RecipeFragment : Fragment() {
                 override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
             }
         )
-        val recyclerViewIngredient = recipeBinding.rvIngredients
-        val recyclerViewMethod = recipeBinding.rvMethod
+
         val ingredientListLeanerLayout = recipeBinding.llIngredientList
         val paddingSizeDp = resources.getDimensionPixelSize(R.dimen.indent_16)
         ingredientListLeanerLayout.setPaddingRelative(paddingSizeDp, 0, paddingSizeDp, 0)
+    }
+
+    private fun setDivider() {
+        val recyclerViewIngredient = recipeBinding.rvIngredients
+        val recyclerViewMethod = recipeBinding.rvMethod
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL
@@ -96,7 +100,6 @@ class RecipeFragment : Fragment() {
             val customAdapterMethod = MethodAdapter(recipe?.method)
             initRecycler(customAdapterIngredient, customAdapterMethod)
 
-
             with(recipeBinding) {
                 tvRecipeTitle.text = recipe?.title
 
@@ -111,5 +114,6 @@ class RecipeFragment : Fragment() {
                 }
             }
         }
+        setDivider()
     }
 }

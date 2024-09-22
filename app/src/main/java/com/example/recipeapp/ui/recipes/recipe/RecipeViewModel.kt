@@ -30,7 +30,6 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
             drawable = Drawable.createFromStream(inputStream, null)
         } catch (e: Exception) {
             Log.e("!!!", e.stackTrace.toString())
-            _recipeState.value = _recipeState.value?.copy(recipeImage = null)
         }
         _recipeState.value = _recipeState.value?.copy(
             recipe = recipe,
