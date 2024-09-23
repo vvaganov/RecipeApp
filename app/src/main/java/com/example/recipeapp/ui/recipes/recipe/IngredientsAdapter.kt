@@ -47,8 +47,8 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
         }
     }
 
-    fun updateIngredients(process: Int?) {
-        quantity = process ?: 1
+    fun updateIngredients(process: Int) {
+        quantity = process
     }
 
     override fun getItemCount() = dataSet?.size ?: 0

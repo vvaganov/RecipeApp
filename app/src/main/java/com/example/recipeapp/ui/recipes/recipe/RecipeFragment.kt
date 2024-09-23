@@ -63,10 +63,10 @@ class RecipeFragment : Fragment() {
         setPaddingIngredientListLayout()
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            val recipe = state?.recipe
+            val recipe = state.recipe
             val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
             val customAdapterMethod = MethodAdapter(recipe?.method)
-            customAdapterIngredient.updateIngredients(state?.numberServings)
+            customAdapterIngredient.updateIngredients(state.numberServings)
             customAdapterIngredient.notifyDataSetChanged()
 
             with(recipeBinding) {

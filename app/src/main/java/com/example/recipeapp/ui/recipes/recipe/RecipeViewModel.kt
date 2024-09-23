@@ -16,7 +16,7 @@ import java.io.InputStream
 class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val _recipeState = MutableLiveData(RecipeUiState())
-    val recipeState: LiveData<RecipeUiState?> get() = _recipeState
+    val recipeState: LiveData<RecipeUiState> get() = _recipeState
 
     fun loadRecipe(recipeId: Int?) {
         //TODO `load from network`
