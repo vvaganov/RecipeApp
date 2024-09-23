@@ -64,6 +64,10 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         _recipeState.value = _recipeState.value?.copy(isFavorites = isFavorites)
     }
 
+    fun changeNumberOfServing(progress: Int) {
+        _recipeState.value = _recipeState.value?.copy(numberServings = progress)
+    }
+
     data class RecipeUiState(
 
         val recipe: Recipe? = null,

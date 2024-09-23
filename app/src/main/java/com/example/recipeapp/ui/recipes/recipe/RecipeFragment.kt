@@ -38,36 +38,61 @@ class RecipeFragment : Fragment() {
         initUI()
     }
 
-    private fun initRecycler(
-        customAdapterIngredient: IngredientsAdapter,
-        customAdapterMethod: MethodAdapter
-    ) {
-        with(recipeBinding) {
-            rvIngredients.adapter = customAdapterIngredient
-            rvMethod.adapter = customAdapterMethod
-        }
+    private fun initUI() {
+
+        viewModel.loadRecipe(recipeId)
+
         val seekBar = recipeBinding.sbNumberOfServings
 
         seekBar.setPadding(resources.getDimensionPixelSize(R.dimen.indent_0))
         seekBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
-                @SuppressLint("NotifyDataSetChanged")
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    customAdapterIngredient.notifyDataSetChanged()
-                    customAdapterIngredient.updateIngredients(progress)
-                    recipeBinding.tvNumberOfServings.text = progress.toString()
+                    viewModel.changeNumberOfServing(progress)
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-
                 override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
             }
         )
 
+        setPaddingIngredientListLayout()
+
+        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            val recipe = state?.recipe
+            val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
+            val customAdapterMethod = MethodAdapter(recipe?.method)
+            customAdapterIngredient.updateIngredients(state?.numberServings)
+            customAdapterIngredient.notifyDataSetChanged()
+
+            with(recipeBinding) {
+                rvIngredients.adapter = customAdapterIngredient
+                rvMethod.adapter = customAdapterMethod
+
+                tvRecipeTitle.text = recipe?.title
+
+                imgRecipe.setImageDrawable(state?.recipeImage)
+
+                tvNumberOfServings.text = state?.numberServings.toString()
+
+                if (state?.isFavorites == true)
+                    ibFavorites.setImageResource(R.drawable.ic_heart)
+                else
+                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                ibFavorites.setOnClickListener {
+                    viewModel.onFavoritesClicked(recipe?.id)
+                }
+            }
+        }
+
+        setDivider()
+    }
+
+    private fun setPaddingIngredientListLayout() {
         val ingredientListLeanerLayout = recipeBinding.llIngredientList
         val paddingSizeDp = resources.getDimensionPixelSize(R.dimen.indent_16)
         ingredientListLeanerLayout.setPaddingRelative(paddingSizeDp, 0, paddingSizeDp, 0)
@@ -88,32 +113,5 @@ class RecipeFragment : Fragment() {
         divider.isLastItemDecorated = false
         recyclerViewIngredient.addItemDecoration(divider)
         recyclerViewMethod.addItemDecoration(divider)
-    }
-
-    private fun initUI() {
-
-        viewModel.loadRecipe(recipeId)
-
-        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            val recipe = state?.recipe
-            val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
-            val customAdapterMethod = MethodAdapter(recipe?.method)
-            initRecycler(customAdapterIngredient, customAdapterMethod)
-
-            with(recipeBinding) {
-                tvRecipeTitle.text = recipe?.title
-
-                imgRecipe.setImageDrawable(state?.recipeImage)
-
-                if (state?.isFavorites == true)
-                    ibFavorites.setImageResource(R.drawable.ic_heart)
-                else
-                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
-                ibFavorites.setOnClickListener {
-                    viewModel.onFavoritesClicked(recipe?.id)
-                }
-            }
-        }
-        setDivider()
     }
 }
