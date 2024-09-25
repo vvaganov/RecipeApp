@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui.recipes.recipe
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
@@ -16,7 +15,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
 
-    private val viewModel: RecipeViewModel by activityViewModels()
+    private val viewModel: RecipeViewModel by viewModels()
 
     private val recipeBinding: FragmentRecipeBinding by lazy {
         FragmentRecipeBinding.inflate(layoutInflater)
@@ -60,6 +59,7 @@ class RecipeFragment : Fragment() {
             }
         )
 
+
         setPaddingIngredientListLayout()
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
@@ -67,7 +67,6 @@ class RecipeFragment : Fragment() {
             val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
             val customAdapterMethod = MethodAdapter(recipe?.method)
             customAdapterIngredient.updateIngredients(state.numberServings)
-            customAdapterIngredient.notifyDataSetChanged()
 
             with(recipeBinding) {
                 rvIngredients.adapter = customAdapterIngredient
@@ -83,10 +82,10 @@ class RecipeFragment : Fragment() {
                     ibFavorites.setImageResource(R.drawable.ic_heart)
                 else
                     ibFavorites.setImageResource(R.drawable.ic_heart_empty)
-                ibFavorites.setOnClickListener {
-                    viewModel.onFavoritesClicked(recipe?.id)
-                }
             }
+        }
+        recipeBinding.ibFavorites.setOnClickListener {
+            viewModel.onFavoritesClicked(recipeId)
         }
 
         setDivider()

@@ -31,7 +31,7 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         } catch (e: Exception) {
             Log.e("!!!", e.stackTrace.toString())
         }
-        _recipeState.value = _recipeState.value?.copy(
+        _recipeState.value = recipeState.value?.copy(
             recipe = recipe,
             isFavorites = isFavorite,
             recipeImage = drawable
@@ -61,11 +61,11 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         }
         setFavorites(newSet)
         isFavorites = getFavorites().toList().contains(recipeId.toString())
-        _recipeState.value = _recipeState.value?.copy(isFavorites = isFavorites)
+        _recipeState.value = recipeState.value?.copy(isFavorites = isFavorites)
     }
 
     fun changeNumberOfServing(progress: Int) {
-        _recipeState.value = _recipeState.value?.copy(numberServings = progress)
+        _recipeState.value = recipeState.value?.copy(numberServings = progress)
     }
 
     data class RecipeUiState(
