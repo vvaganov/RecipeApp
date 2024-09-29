@@ -14,6 +14,7 @@ import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
 import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.example.recipeapp.model.Ingredient
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
@@ -44,14 +45,14 @@ class RecipeFragment : Fragment() {
 
         viewModel.loadRecipe(recipeId)
 
-        val seekBar: SeekBar = recipeBinding.sbNumberOfServings
-        seekBar.setPadding(resources.getDimensionPixelSize(R.dimen.indent_0))
-        seekBar.setOnSeekBarChangeListener(
-            PortionSeekBarListener(onChangeIngredients = { viewModel.changeNumberOfServing(it) })
-        )
+        with(recipeBinding.sbNumberOfServings) {
+            setOnSeekBarChangeListener(
+                PortionSeekBarListener(onChangeIngredients = { viewModel.changeNumberOfServing(it) })
+            )
+        }
 
-        val customAdapterIngredient = IngredientsAdapter(STUB.getRecipe().flatMap { it.ingredients })
-        val customAdapterMethod = MethodAdapter(STUB.getRecipe().flatMap { it.method })
+        val customAdapterIngredient = IngredientsAdapter(emptyList())
+        val customAdapterMethod = MethodAdapter(emptyList())
 
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
