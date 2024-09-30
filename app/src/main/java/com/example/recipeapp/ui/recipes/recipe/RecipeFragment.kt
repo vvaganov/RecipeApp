@@ -1,16 +1,20 @@
 package com.example.recipeapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
+import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipeBinding
+import com.example.recipeapp.model.Ingredient
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
@@ -41,38 +45,27 @@ class RecipeFragment : Fragment() {
 
         viewModel.loadRecipe(recipeId)
 
-        val seekBar = recipeBinding.sbNumberOfServings
+        with(recipeBinding.sbNumberOfServings) {
+            setOnSeekBarChangeListener(
+                PortionSeekBarListener(onChangeIngredients = { viewModel.changeNumberOfServing(it) })
+            )
+        }
 
-        seekBar.setPadding(resources.getDimensionPixelSize(R.dimen.indent_0))
-        seekBar.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    viewModel.changeNumberOfServing(progress)
-                }
+        val customAdapterIngredient = IngredientsAdapter(emptyList())
+        val customAdapterMethod = MethodAdapter(emptyList())
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-            }
-        )
-
-
-        setPaddingIngredientListLayout()
+        recipeBinding.rvIngredients.adapter = customAdapterIngredient
+        recipeBinding.rvMethod.adapter = customAdapterMethod
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            val recipe = state.recipe
-            val customAdapterIngredient = IngredientsAdapter(recipe?.ingredients)
-            val customAdapterMethod = MethodAdapter(recipe?.method)
+
             customAdapterIngredient.updateIngredients(state.numberServings)
+            customAdapterIngredient.dataSet = state.recipe?.ingredients
+            customAdapterMethod.dataSet = state.recipe?.method
 
             with(recipeBinding) {
-                rvIngredients.adapter = customAdapterIngredient
-                rvMethod.adapter = customAdapterMethod
 
-                tvRecipeTitle.text = recipe?.title
+                tvRecipeTitle.text = state.recipe?.title
 
                 imgRecipe.setImageDrawable(state?.recipeImage)
 
@@ -87,7 +80,7 @@ class RecipeFragment : Fragment() {
         recipeBinding.ibFavorites.setOnClickListener {
             viewModel.onFavoritesClicked(recipeId)
         }
-
+        setPaddingIngredientListLayout()
         setDivider()
     }
 
@@ -113,4 +106,18 @@ class RecipeFragment : Fragment() {
         recyclerViewIngredient.addItemDecoration(divider)
         recyclerViewMethod.addItemDecoration(divider)
     }
+
+}
+
+class PortionSeekBarListener(
+    val onChangeIngredients: (Int) -> Unit
+) : SeekBar.OnSeekBarChangeListener {
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        onChangeIngredients(progress)
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
 }

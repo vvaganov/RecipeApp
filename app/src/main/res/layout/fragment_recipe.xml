@@ -111,7 +111,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:max="5"
-                    android:min="1" />
+                    android:min="1"
+                    android:paddingLeft="@dimen/indent_0"
+                    android:paddingTop="@dimen/indent_0"
+                    android:paddingRight="@dimen/indent_0"
+                    android:paddingBottom="@dimen/indent_0" />
+
 
             </LinearLayout>
 

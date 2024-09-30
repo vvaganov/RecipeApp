@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
+import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.ItemIngredientBinding
 import com.example.recipeapp.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
+class IngredientsAdapter(var dataSet: List<Ingredient>?) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     private var quantity = 1
@@ -47,8 +49,10 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>?) :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateIngredients(process: Int) {
         quantity = process
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = dataSet?.size ?: 0
