@@ -13,7 +13,7 @@ import com.example.recipeapp.databinding.ItemRecipeBinding
 import com.example.recipeapp.model.Recipe
 import java.io.InputStream
 
-class RecipeListAdapter(private val dataSet: List<Recipe>) :
+class RecipeListAdapter(var dataSet: List<Recipe>) :
     RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
