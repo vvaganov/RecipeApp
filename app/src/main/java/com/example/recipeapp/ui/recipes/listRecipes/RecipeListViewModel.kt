@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipeapp.data.RecipeRepository
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.model.Recipe
 import java.io.InputStream
 
@@ -15,7 +14,7 @@ class RecipeListViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = RecipeRepository(context = application)
+    private val repository = RecipeRepository()
 
     private val _recipeListState = MutableLiveData(RecipeListUiState())
     val recipeListState: LiveData<RecipeListUiState> get() = _recipeListState

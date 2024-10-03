@@ -1,20 +1,15 @@
 package com.example.recipeapp.ui.recipes.recipe
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.recipeapp.ARG_RECIPE_ID
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.FragmentRecipeBinding
-import com.example.recipeapp.model.Ingredient
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
@@ -106,7 +101,6 @@ class RecipeFragment : Fragment() {
         recyclerViewIngredient.addItemDecoration(divider)
         recyclerViewMethod.addItemDecoration(divider)
     }
-
 }
 
 class PortionSeekBarListener(

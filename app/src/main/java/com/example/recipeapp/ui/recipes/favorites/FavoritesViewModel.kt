@@ -1,32 +1,27 @@
 package com.example.recipeapp.ui.recipes.favorites
 
 import android.app.Application
-import android.content.Context.MODE_PRIVATE
-import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.recipeapp.PREF_FAVORITE_KEY
-import com.example.recipeapp.PREF_FILE_NAME
+import com.example.recipeapp.data.FavoritesLocalDataSources
+import com.example.recipeapp.data.FavoritesRepository
 import com.example.recipeapp.data.RecipeRepository
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.model.Recipe
-
-private const val MESSAGE_EMPTY_FAVORITE_LIST = "Вы еще не добавили ни одного рецепта в избранное"
 
 class FavoritesViewModel(private val application: Application) : AndroidViewModel(application) {
 
-    private val repository = RecipeRepository(context = application)
+    private val recipeRepository = RecipeRepository()
+    private val favoritesRepository = FavoritesRepository(FavoritesLocalDataSources((application)))
 
     private val _favoritesState = MutableLiveData(FavoritesUiState())
     val favoritesState: LiveData<FavoritesUiState> get() = _favoritesState
 
     fun loadFavoritesList() {
-        val favoritesRecipeSetId = repository.getFavorites().map { it.toInt() }.toSet()
-        val favoriteRecipeList = repository.getRecipesByIds(favoritesRecipeSetId)
+        val favoritesRecipeSetId = favoritesRepository.getRecipeData().map { it.toInt() }.toSet()
+        val favoriteRecipeList = recipeRepository.getRecipesByIds(favoritesRecipeSetId)
         if (favoriteRecipeList.isNotEmpty()) {
             _favoritesState.value = favoritesState.value?.copy(
-                visibilityText = View.GONE,
                 favoritesSet = favoriteRecipeList
             )
         }
@@ -35,6 +30,4 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
 
 data class FavoritesUiState(
     val favoritesSet: List<Recipe> = emptyList(),
-    val visibilityText: Int = View.VISIBLE,
-    val messageText: String = MESSAGE_EMPTY_FAVORITE_LIST
-)
+    )
