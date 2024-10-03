@@ -9,7 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import com.example.recipeapp.ARG_CATEGORY_ID
+import com.example.recipeapp.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.R
 import com.example.recipeapp.ui.recipes.listRecipes.RecipesListFragment
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
