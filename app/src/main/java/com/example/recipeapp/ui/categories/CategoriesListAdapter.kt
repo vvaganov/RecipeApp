@@ -13,7 +13,7 @@ import com.example.recipeapp.databinding.ItemCategoryBinding
 import com.example.recipeapp.model.Category
 import java.io.InputStream
 
-class CategoriesListAdapter(private val dataSet: List<Category>) :
+class CategoriesListAdapter(var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {

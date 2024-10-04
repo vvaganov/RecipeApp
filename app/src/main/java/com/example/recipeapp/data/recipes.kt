@@ -239,12 +239,4 @@ object STUB {
     fun getCategories() = categories
 
     fun getRecipe() = burgerRecipes
-
-    fun getRecipeById(id: Int?): Recipe? {
-        return burgerRecipes.find { it.id == id }
-    }
-
-    fun getRecipesByIds(favoritesListIdInt: Set<Int>): List<Recipe> {
-        return burgerRecipes.filter { favoritesListIdInt.contains(it.id) }
-    }
 }
