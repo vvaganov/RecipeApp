@@ -1,17 +1,15 @@
 package com.example.recipeapp.ui.categories
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.Constants.ARG_CATEGORY_ID
 import com.example.recipeapp.R
-import com.example.recipeapp.ui.recipes.listRecipes.RecipesListFragment
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -25,6 +23,7 @@ class CategoriesListFragment : Fragment() {
         )
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +35,7 @@ class CategoriesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
+
 
     private fun initUi() {
 
@@ -61,9 +61,7 @@ class CategoriesListFragment : Fragment() {
         val bundle = bundleOf(
             ARG_CATEGORY_ID to categoryId,
         )
-        parentFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
-        }
+        findNavController().navigate(R.id.recipesListFragment, bundle)
+
     }
 }
