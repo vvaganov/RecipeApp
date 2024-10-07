@@ -62,6 +62,6 @@ class FavoritesFragment : Fragment() {
             ARG_RECIPE_ID to recipeId,
         )
         val navController = this.findNavController()
-        navController.navigate(R.id.recipeFragment, bundle)
+        navController.navigate(R.id.action_favoritesFragment_to_recipeFragment, bundle)
     }
 }

@@ -23,7 +23,6 @@ class CategoriesListFragment : Fragment() {
         )
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +34,6 @@ class CategoriesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
-
 
     private fun initUi() {
 
@@ -61,7 +59,9 @@ class CategoriesListFragment : Fragment() {
         val bundle = bundleOf(
             ARG_CATEGORY_ID to categoryId,
         )
-        findNavController().navigate(R.id.recipesListFragment, bundle)
-
+        findNavController().navigate(
+            R.id.action_categoriesListFragment_to_recipesListFragment,
+            bundle
+        )
     }
 }
