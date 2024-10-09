@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.recipeapp.Constants.ARG_RECIPE_ID
+import androidx.navigation.fragment.navArgs
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -20,9 +20,7 @@ class RecipeFragment : Fragment() {
         FragmentRecipeBinding.inflate(layoutInflater)
     }
 
-    private val recipeId: Int
-        get() = arguments?.getInt(ARG_RECIPE_ID)
-            ?: throw IllegalArgumentException("argument is null")
+    private val args: RecipeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +35,8 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
+
+        val recipeId = args.recipeId
 
         viewModel.loadRecipe(recipeId)
 
