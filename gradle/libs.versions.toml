@@ -13,6 +13,7 @@ constraintlayout = "2.1.4"
 databindingRuntime = "8.5.1"
 lifecycleViewmodelAndroid = "2.8.5"
 navigationFragment = "2.8.2"
+safeargs = "2.8.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,4 +33,5 @@ androidx-lifecycle-viewmodel-android = { group = "androidx.lifecycle", name = "l
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
 

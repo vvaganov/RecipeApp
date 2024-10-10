@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.recipeapp.Constants.ARG_RECIPE_ID
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
 import com.example.recipeapp.ui.recipes.listRecipes.RecipeListAdapter
@@ -58,10 +56,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val bundle = bundleOf(
-            ARG_RECIPE_ID to recipeId,
-        )
-        val navController = this.findNavController()
-        navController.navigate(R.id.action_favoritesFragment_to_recipeFragment, bundle)
+        val recipeId = FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipeId)
+        findNavController().navigate(recipeId)
     }
 }
