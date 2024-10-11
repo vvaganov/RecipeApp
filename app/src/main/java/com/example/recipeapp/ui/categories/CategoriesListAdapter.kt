@@ -17,7 +17,7 @@ class CategoriesListAdapter(var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(categoryId: Int)
+        fun onItemClick(category: Category)
     }
 
     private var itemClickListener: OnItemClickListener? = null
@@ -53,7 +53,7 @@ class CategoriesListAdapter(var dataSet: List<Category>) :
             }
             textViewTitle.text = category.title
             textViewDescription.text = category.description
-            itemView.setOnClickListener { itemClickListener?.onItemClick(category.id) }
+            itemView.setOnClickListener { itemClickListener?.onItemClick(category) }
         }
     }
 

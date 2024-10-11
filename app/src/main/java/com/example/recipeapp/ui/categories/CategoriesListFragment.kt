@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.recipeapp.Constants.ARG_CATEGORY_ID
-import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
+import com.example.recipeapp.model.Category
 
 class CategoriesListFragment : Fragment() {
 
@@ -47,22 +45,22 @@ class CategoriesListFragment : Fragment() {
         }
         customAdapter.setOnItemClickListener(
             object : CategoriesListAdapter.OnItemClickListener {
-                override fun onItemClick(categoryId: Int) {
-                    openRecipesByCategoryId(categoryId)
+                override fun onItemClick(category: Category) {
+                    openRecipesByCategoryId(category)
                 }
             }
         )
     }
 
-    private fun openRecipesByCategoryId(categoryId: Int) {
+    private fun openRecipesByCategoryId(category: Category) {
 
-        val category = viewModel.getCategoryById(categoryId)
-
-        if (category != null){
+        if (category != null) {
             val categoryId =
-                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(category)
+                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                    category
+                )
             findNavController().navigate(categoryId)
-        }else{
+        } else {
             throw IllegalArgumentException("There is no such category")
         }
     }

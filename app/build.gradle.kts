@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.navigation.safeargs.kotlin)
-    id("kotlin-parcelize")
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
 }
 
 android {
