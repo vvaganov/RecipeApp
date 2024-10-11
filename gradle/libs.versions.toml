@@ -10,7 +10,6 @@ appcompat = "1.6.1"
 material = "1.10.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
-databindingRuntime = "8.5.1"
 lifecycleViewmodelAndroid = "2.8.5"
 navigationFragment = "2.8.2"
 safeargs = "2.8.2"
@@ -34,4 +33,5 @@ androidx-lifecycle-viewmodel-android = { group = "androidx.lifecycle", name = "l
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
+
 

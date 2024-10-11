@@ -17,6 +17,10 @@ class CategoryListViewModel() : ViewModel() {
         val categoryList = repository.getCategories()
         _categoryListState.value = categoryListState.value?.copy(categoryList = categoryList)
     }
+
+    fun getCategoryById(categoryId: Int): Category? {
+        return repository.getCategoryById(categoryId)
+    }
 }
 
 data class CategoryListUiState(

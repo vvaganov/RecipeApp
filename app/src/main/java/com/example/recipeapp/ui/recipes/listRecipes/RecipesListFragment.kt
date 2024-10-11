@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.recipeapp.Constants.ARG_CATEGORY_ID
+import androidx.navigation.fragment.navArgs
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -18,10 +18,7 @@ class RecipesListFragment : Fragment() {
             FragmentRecipesListBinding by lazy {
         FragmentRecipesListBinding.inflate(layoutInflater)
     }
-
-    private val categoryId: Int
-        get() = arguments?.getInt(ARG_CATEGORY_ID)
-            ?: throw IllegalArgumentException("argument is null")
+    private  val args: RecipesListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +33,10 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUi() {
-        viewModel.loadRecipeList(categoryId)
+
+        val category = args.category
+
+        viewModel.loadRecipeList(category)
 
         val customAdapter = RecipeListAdapter(emptyList())
         recipesListBinding.rvRecipeList.adapter = customAdapter

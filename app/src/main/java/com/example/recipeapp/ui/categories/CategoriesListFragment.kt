@@ -56,12 +56,14 @@ class CategoriesListFragment : Fragment() {
 
     private fun openRecipesByCategoryId(categoryId: Int) {
 
-        val bundle = bundleOf(
-            ARG_CATEGORY_ID to categoryId,
-        )
-        findNavController().navigate(
-            R.id.action_categoriesListFragment_to_recipesListFragment,
-            bundle
-        )
+        val category = viewModel.getCategoryById(categoryId)
+
+        if (category != null){
+            val categoryId =
+                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(category)
+            findNavController().navigate(categoryId)
+        }else{
+            throw IllegalArgumentException("There is no such category")
+        }
     }
 }
