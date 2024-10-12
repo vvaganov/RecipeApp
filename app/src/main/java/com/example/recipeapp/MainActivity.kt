@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.example.recipeapp.databinding.ActivityMainBinding
+import com.example.recipeapp.model.Category
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json.Default.decodeFromString
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -24,15 +27,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name} ")
 
         val thread = Thread {
+            Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name} ")
             val url = URL("https://recipes.androidsprint.ru/api/category")
             val connection = url.openConnection() as HttpURLConnection
             connection.connect()
 
-            Log.i("!!!", "ResponseCode: ${connection.responseCode} ")
-            Log.i("!!!", "ResponseMessage: ${connection.responseMessage} ")
-            Log.i("!!!", "Body: ${connection.inputStream.bufferedReader().readText()} ")
+            val responseBodyString = connection.inputStream.bufferedReader().readText()
+            Log.i("!!!", "Body: $responseBodyString")
+
+            val listCategory = decodeFromString<List<Category>>(responseBodyString)
+
+            Log.i("!!!", "CategoryList: $listCategory")
+
         }
         thread.start()
 
@@ -53,3 +62,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+@Serializable
+data class CategoryJson(
+    val id: Int? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val imageUrl: String? = null
+)
