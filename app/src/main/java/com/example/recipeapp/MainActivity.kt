@@ -7,7 +7,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.example.recipeapp.databinding.ActivityMainBinding
 import com.example.recipeapp.model.Category
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json.Default.decodeFromString
 import java.net.HttpURLConnection
 import java.net.URL
@@ -62,11 +61,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-@Serializable
-data class CategoryJson(
-    val id: Int? = null,
-    val title: String? = null,
-    val description: String? = null,
-    val imageUrl: String? = null
-)
