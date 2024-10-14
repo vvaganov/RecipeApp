@@ -9,8 +9,9 @@ import com.example.recipeapp.databinding.ActivityMainBinding
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
 import kotlinx.serialization.json.Json.Default.decodeFromString
-import java.net.HttpURLConnection
-import java.net.URL
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -31,31 +32,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name} ")
-
         val thread = Thread {
-            Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name} ")
-            val url = URL("https://recipes.androidsprint.ru/api/category")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.connect()
 
-            val connectionCategory = url.openConnection() as HttpURLConnection
-            connectionCategory.connect()
-            val responseBodyString = connectionCategory.inputStream.bufferedReader().readText()
-            val listCategory = decodeFromString<List<Category>>(responseBodyString)
+            val client = OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build()
 
-            Log.i("!!!", "CategoryList: $listCategory")
-            val listIdCategory = listCategory.map { it.id }
+            val request = Request.Builder()
+                .url("https://recipes.androidsprint.ru/api/category")
+                .build()
 
-            listIdCategory.forEach {
+           val response =  client.newCall(request).execute().body?.string()
+
+            Log.i("!!!", "Response $response")
+            val listCategory = decodeFromString<List<Category>>(response.toString()).map { it.id }
+
+            listCategory.forEach {
                 threadPool.execute {
-                    val urlRecipe = URL("https://recipes.androidsprint.ru/api/category/$it/recipes")
-                    val connectionRecipe = urlRecipe.openConnection() as HttpURLConnection
-                    connectionRecipe.connect()
-                    val responseRecipe = connectionRecipe.inputStream.bufferedReader().readText()
-                    val listRecipe = decodeFromString<List<Recipe>>(responseRecipe)
-                    Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name} ")
-                    Log.i("!!!", "RecipeList: $listRecipe")
+                    val clientRecipe = OkHttpClient.Builder()
+                        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                        .build()
+                    val requestRecipe = Request.Builder()
+                        .url("https://recipes.androidsprint.ru/api/category/$it/recipes")
+                        .build()
+                    val responseRecipe = clientRecipe.newCall(requestRecipe).execute()
+                    val responseRecipeBody = responseRecipe.body?.string()
+                    val listRecipe = decodeFromString<List<Recipe>>(responseRecipeBody.toString())
+                    Log.i("!!!", "ListRecipe : $listRecipe")
                 }
             }
         }
