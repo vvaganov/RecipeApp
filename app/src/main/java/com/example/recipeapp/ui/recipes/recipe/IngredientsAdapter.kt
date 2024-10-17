@@ -34,17 +34,24 @@ class IngredientsAdapter(var dataSet: List<Ingredient>?) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val recipe = dataSet?.get(position)
 
-        val totalQuantity = BigDecimal(recipe?.quantity) * BigDecimal(quantity)
+        try {
+            val totalQuantity = BigDecimal(recipe?.quantity) * BigDecimal(quantity)
 
-        val displayQuantity = totalQuantity
-            .setScale(1, RoundingMode.HALF_UP)
-            .stripTrailingZeros()
-            .toPlainString()
+            val displayQuantity = totalQuantity
+                .setScale(1, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString()
 
-        with(viewHolder) {
-            textIngredientViewTitle.text = recipe?.description
-            textUnitOfMeasureViewTitle.text =
-                displayQuantity.toString() + " " + recipe?.unitOfMeasure
+            with(viewHolder) {
+                textIngredientViewTitle.text = recipe?.description
+                textUnitOfMeasureViewTitle.text =
+                    displayQuantity.toString() + " " + recipe?.unitOfMeasure
+            }
+        } catch (e:Exception){
+            with(viewHolder) {
+                textIngredientViewTitle.text = recipe?.description
+                textUnitOfMeasureViewTitle.text = recipe?.quantity
+            }
         }
     }
 
