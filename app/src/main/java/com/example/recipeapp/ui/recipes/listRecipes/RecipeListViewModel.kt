@@ -22,6 +22,11 @@ class RecipeListViewModel(
 
     fun loadRecipeList(category: Category) {
 
+        var list: List<Recipe>? = emptyList()
+        repository.getRecipeListByCategoryId(category.id) { categoryList ->
+            list = categoryList
+        }
+
         var drawable: Drawable? = null
         try {
             val inputStream: InputStream? =
@@ -33,18 +38,13 @@ class RecipeListViewModel(
         _recipeListState.value = recipeListState.value?.copy(
             titleImg = drawable,
             titleText = category.title,
-            recipeList = getRecipesByCategoryId(category.id)
+            recipeList = list
         )
-    }
-
-    private fun getRecipesByCategoryId(categoryId: Int?): List<Recipe> {
-        val listRecipe = repository.getRecipe()
-        return if (categoryId == 0) listRecipe else emptyList()
     }
 }
 
 data class RecipeListUiState(
     val titleImg: Drawable? = null,
     val titleText: String? = null,
-    val recipeList: List<Recipe> = emptyList()
+    val recipeList: List<Recipe>? = emptyList()
 )

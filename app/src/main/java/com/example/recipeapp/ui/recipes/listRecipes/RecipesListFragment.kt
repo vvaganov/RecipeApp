@@ -44,7 +44,7 @@ class RecipesListFragment : Fragment() {
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
             recipesListBinding.tvRecipeList.text = state.titleText
             recipesListBinding.imgRecipeList.setImageDrawable(state.titleImg)
-            customAdapter.dataSet = state.recipeList
+            customAdapter.dataSet = state.recipeList ?: emptyList()
         }
         customAdapter.setOnItemClickListener(
             object : RecipeListAdapter.OnItemClickListener {

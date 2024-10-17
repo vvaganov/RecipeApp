@@ -2,6 +2,7 @@ package com.example.recipeapp.ui.recipes.favorites
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,14 +28,22 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
 
     fun loadFavoritesList() {
         val favoritesRecipeSetId = favoritesRepository.getRecipeData().map { it.toInt() }.toSet()
-        val favoriteRecipeList = recipeRepository.getRecipesByIds(favoritesRecipeSetId)
-        if (favoriteRecipeList.isNotEmpty()) {
+        Log.i("!!!", "SetSize = ${favoritesRecipeSetId.size}")
+
+        var favoriteRecipeList: List<Recipe>? = emptyList()
+
+        recipeRepository.getListRecipeByListId(favoritesRecipeSetId) { recipeList ->
+            favoriteRecipeList = recipeList
+        }
+
+        if (favoriteRecipeList?.isNotEmpty() == true) {
             _favoritesState.value = favoritesState.value?.copy(
                 favoritesSet = favoriteRecipeList
             )
         }
     }
 }
+
 data class FavoritesUiState(
-    val favoritesSet: List<Recipe> = emptyList(),
+    val favoritesSet: List<Recipe>? = emptyList(),
 )
