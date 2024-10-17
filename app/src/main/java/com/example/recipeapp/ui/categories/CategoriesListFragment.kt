@@ -41,25 +41,25 @@ class CategoriesListFragment : Fragment() {
         categoriesListBinding.rvCategories.adapter = customAdapter
 
         viewModel.categoryListState.observe(viewLifecycleOwner) { state ->
-            customAdapter.dataSet = state.categoryList
+            customAdapter.dataSet = state.categoryList ?: emptyList()
         }
         customAdapter.setOnItemClickListener(
             object : CategoriesListAdapter.OnItemClickListener {
                 override fun onItemClick(category: Category) {
-                    openRecipesByCategoryId(category)
+                    openRecipesListByCategoryId(category)
                 }
             }
         )
     }
 
-    private fun openRecipesByCategoryId(category: Category) {
+    private fun openRecipesListByCategoryId(category: Category) {
 
         if (category != null) {
-            val categoryId =
+            val category =
                 CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
                     category
                 )
-            findNavController().navigate(categoryId)
+            findNavController().navigate(category)
         } else {
             throw IllegalArgumentException("There is no such category")
         }

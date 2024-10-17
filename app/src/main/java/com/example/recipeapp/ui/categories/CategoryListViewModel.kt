@@ -14,11 +14,18 @@ class CategoryListViewModel() : ViewModel() {
     val categoryListState: LiveData<CategoryListUiState> get() = _categoryListState
 
     fun loadCategoryList() {
-        val categoryList = repository.getCategories()
-        _categoryListState.value = categoryListState.value?.copy(categoryList = categoryList)
+
+        var list: List<Category>? = emptyList()
+
+        repository.getCategoryList() { categoryList ->
+            list = categoryList
+        }
+        _categoryListState.value = categoryListState.value?.copy(
+            categoryList = list
+        )
     }
 }
 
 data class CategoryListUiState(
-    val categoryList: List<Category> = emptyList()
+    val categoryList: List<Category>? = emptyList()
 )

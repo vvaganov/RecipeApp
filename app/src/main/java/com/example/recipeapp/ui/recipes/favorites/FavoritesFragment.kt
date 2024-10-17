@@ -38,12 +38,12 @@ class FavoritesFragment : Fragment() {
         favoriteFragmentBinding.rvRecipeFavoritesList.adapter = customAdapter
 
         viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
-            if (state.favoritesSet.isEmpty()) {
+            if (state.favoritesSet?.isEmpty() == true) {
                 favoriteFragmentBinding.tvEmptyFavoriteList.text =
                     getString(R.string.empty_favorite_list_message)
             } else {
                 favoriteFragmentBinding.tvEmptyFavoriteList.visibility = View.GONE
-                customAdapter.dataSet = state.favoritesSet
+                customAdapter.dataSet = state?.favoritesSet ?: emptyList()
             }
         }
         customAdapter.setOnItemClickListener(

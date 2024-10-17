@@ -33,10 +33,13 @@ class RecipeViewModel(
     private val _recipeState = MutableLiveData(RecipeUiState())
     val recipeState: LiveData<RecipeUiState> get() = _recipeState
 
-    fun loadRecipe(recipeId: Int?) {
+    fun loadRecipe(recipeId: Int) {
         //TODO `load from network`
         val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
-        val recipe = recipeRepository.getRecipeById(recipeId)
+        var recipe: Recipe? = null
+        recipeRepository.getRecipeById(recipeId) { getRecipe ->
+            recipe = getRecipe
+        }
         var drawable: Drawable? = null
 
         try {
