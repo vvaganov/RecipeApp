@@ -31,29 +31,34 @@ class RecipeViewModel(
         )
 
     private val _recipeState = MutableLiveData(RecipeUiState())
-    val recipeState: LiveData<RecipeUiState> get() = _recipeState
+    private val recipeState: LiveData<RecipeUiState> get() = _recipeState
+
+    fun getRecipeState(recipeId: Int): LiveData<RecipeUiState> {
+        loadRecipe(recipeId)
+        return recipeState
+    }
 
     fun loadRecipe(recipeId: Int) {
         //TODO `load from network`
         val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
-        var recipe: Recipe? = null
-        recipeRepository.getRecipeById(recipeId) { getRecipe ->
-            recipe = getRecipe
-        }
-        var drawable: Drawable? = null
 
-        try {
-            val inputStream: InputStream? =
-                application.assets?.open("${recipe?.imageUrl}")
-            drawable = Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("!!!", e.stackTrace.toString())
+        recipeRepository.getRecipeById(recipeId) { getRecipe ->
+            var drawable: Drawable? = null
+            try {
+                val inputStream: InputStream? =
+                    application.assets?.open("${getRecipe?.imageUrl}")
+                drawable = Drawable.createFromStream(inputStream, null)
+            } catch (e: Exception) {
+                Log.e("!!!", e.stackTrace.toString())
+            }
+            _recipeState.postValue(
+                recipeState.value?.copy(
+                    recipe = getRecipe,
+                    isFavorites = isFavorite,
+                    recipeImage = drawable
+                )
+            )
         }
-        _recipeState.value = recipeState.value?.copy(
-            recipe = recipe,
-            isFavorites = isFavorite,
-            recipeImage = drawable
-        )
     }
 
     fun onFavoritesClicked(recipeId: Int?) {

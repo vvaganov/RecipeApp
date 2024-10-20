@@ -15,5 +15,6 @@ class FavoritesLocalDataSources(
 
     fun setFavorites(setFavoriteId: Set<String>?) {
         sharedPreferences.edit()?.putStringSet(PREF_FAVORITE_KEY, setFavoriteId)?.apply()
+
     }
 }

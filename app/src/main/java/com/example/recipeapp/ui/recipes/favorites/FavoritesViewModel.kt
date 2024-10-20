@@ -2,7 +2,6 @@ package com.example.recipeapp.ui.recipes.favorites
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,27 +22,29 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
         )
     )
 
-    private val _favoritesState = MutableLiveData(FavoritesUiState())
-    val favoritesState: LiveData<FavoritesUiState> get() = _favoritesState
+    private val _favoritesState = MutableLiveData(FavoritesUiState(emptyList()))
+    private val favoritesState: LiveData<FavoritesUiState> get() = _favoritesState
 
-    fun loadFavoritesList() {
-        val favoritesRecipeSetId = favoritesRepository.getRecipeData().map { it.toInt() }.toSet()
-        Log.i("!!!", "SetSize = ${favoritesRecipeSetId.size}")
+    fun getFavoritesListState(): LiveData<FavoritesUiState> {
+        loadFavoritesList()
+        return favoritesState
+    }
 
-        var favoriteRecipeList: List<Recipe>? = emptyList()
+    private fun loadFavoritesList() {
+        val favoritesRecipeSetId =
+            favoritesRepository.getRecipeData().map { it.toInt() }.toSet().joinToString(",")
 
         recipeRepository.getListRecipeByListId(favoritesRecipeSetId) { recipeList ->
-            favoriteRecipeList = recipeList
-        }
 
-        if (favoriteRecipeList?.isNotEmpty() == true) {
-            _favoritesState.value = favoritesState.value?.copy(
-                favoritesSet = favoriteRecipeList
+            _favoritesState.postValue(
+                favoritesState.value?.copy(
+                    favoritesSet = recipeList
+                )
             )
         }
     }
 }
 
 data class FavoritesUiState(
-    val favoritesSet: List<Recipe>? = emptyList(),
+    val favoritesSet: List<Recipe>?
 )

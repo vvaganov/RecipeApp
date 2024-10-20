@@ -1,13 +1,16 @@
 package com.example.recipeapp.ui.recipes.listRecipes
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.recipeapp.Constants.LOAD_ERROR
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -18,7 +21,7 @@ class RecipesListFragment : Fragment() {
             FragmentRecipesListBinding by lazy {
         FragmentRecipesListBinding.inflate(layoutInflater)
     }
-    private  val args: RecipesListFragmentArgs by navArgs()
+    private val args: RecipesListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,24 +30,23 @@ class RecipesListFragment : Fragment() {
         return recipesListBinding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUi()
-    }
-
-    private fun initUi() {
-
         val category = args.category
-
-        viewModel.loadRecipeList(category)
 
         val customAdapter = RecipeListAdapter(emptyList())
         recipesListBinding.rvRecipeList.adapter = customAdapter
 
-        viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
+        viewModel.getRecipeListState(category).observe(viewLifecycleOwner) { state ->
             recipesListBinding.tvRecipeList.text = state.titleText
             recipesListBinding.imgRecipeList.setImageDrawable(state.titleImg)
-            customAdapter.dataSet = state.recipeList ?: emptyList()
+            if (state.recipeList != null) {
+                customAdapter.dataSet = state.recipeList
+                customAdapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(requireContext(), LOAD_ERROR, Toast.LENGTH_SHORT).show()
+            }
         }
         customAdapter.setOnItemClickListener(
             object : RecipeListAdapter.OnItemClickListener {

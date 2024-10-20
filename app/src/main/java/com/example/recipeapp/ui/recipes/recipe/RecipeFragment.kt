@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,16 +30,11 @@ class RecipeFragment : Fragment() {
         return recipeBinding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI()
-    }
-
-    private fun initUI() {
 
         val recipeId = args.recipeId
-
-        viewModel.loadRecipe(recipeId)
 
         with(recipeBinding.sbNumberOfServings) {
             setOnSeekBarChangeListener(
@@ -52,11 +48,13 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
-        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+        viewModel.getRecipeState(recipeId).observe(viewLifecycleOwner) { state ->
 
             customAdapterIngredient.updateIngredients(state.numberServings)
             customAdapterIngredient.dataSet = state.recipe?.ingredients
+            customAdapterMethod.notifyDataSetChanged()
             customAdapterMethod.dataSet = state.recipe?.method
+            customAdapterMethod.notifyDataSetChanged()
 
             with(recipeBinding) {
 
@@ -78,6 +76,7 @@ class RecipeFragment : Fragment() {
         setPaddingIngredientListLayout()
         setDivider()
     }
+
 
     private fun setPaddingIngredientListLayout() {
         val ingredientListLeanerLayout = recipeBinding.llIngredientList
