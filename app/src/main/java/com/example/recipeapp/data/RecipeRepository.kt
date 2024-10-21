@@ -68,8 +68,12 @@ class RecipeRepository {
 
     fun getListRecipeByListId(favoritesListIdInt: String, callback: (List<Recipe>?) -> Unit) {
         threadPool.submit {
-            val listRecipe = service.getListRecipeByListId(favoritesListIdInt).execute().body()
-            callback(listRecipe)
+            try {
+                val listRecipe = service.getListRecipeByListId(favoritesListIdInt).execute().body()
+                callback(listRecipe)
+            } catch (e: Exception) {
+                callback(null)
+            }
         }
     }
 }

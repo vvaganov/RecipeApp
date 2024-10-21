@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.recipeapp.Constants.LOAD_ERROR
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -38,14 +38,17 @@ class RecipesListFragment : Fragment() {
         val customAdapter = RecipeListAdapter(emptyList())
         recipesListBinding.rvRecipeList.adapter = customAdapter
 
-        viewModel.getRecipeListState(category).observe(viewLifecycleOwner) { state ->
-            recipesListBinding.tvRecipeList.text = state.titleText
-            recipesListBinding.imgRecipeList.setImageDrawable(state.titleImg)
+        viewModel.loadRecipeList(category)
+        recipesListBinding.tvRecipeList.text = category.title
+        recipesListBinding.imgRecipeList.setImageDrawable(viewModel.getImage(category))
+
+        viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
             if (state.recipeList != null) {
                 customAdapter.dataSet = state.recipeList
                 customAdapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(requireContext(), LOAD_ERROR, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         customAdapter.setOnItemClickListener(

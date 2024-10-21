@@ -31,29 +31,24 @@ class RecipeViewModel(
         )
 
     private val _recipeState = MutableLiveData(RecipeUiState())
-    private val recipeState: LiveData<RecipeUiState> get() = _recipeState
-
-    fun getRecipeState(recipeId: Int): LiveData<RecipeUiState> {
-        loadRecipe(recipeId)
-        return recipeState
-    }
+    val recipeState: LiveData<RecipeUiState> get() = _recipeState
 
     fun loadRecipe(recipeId: Int) {
-        //TODO `load from network`
+
         val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
 
-        recipeRepository.getRecipeById(recipeId) { getRecipe ->
+        recipeRepository.getRecipeById(recipeId) { recipe ->
             var drawable: Drawable? = null
             try {
                 val inputStream: InputStream? =
-                    application.assets?.open("${getRecipe?.imageUrl}")
+                    application.assets?.open("${recipe?.imageUrl}")
                 drawable = Drawable.createFromStream(inputStream, null)
             } catch (e: Exception) {
                 Log.e("!!!", e.stackTrace.toString())
             }
             _recipeState.postValue(
                 recipeState.value?.copy(
-                    recipe = getRecipe,
+                    recipe = recipe,
                     isFavorites = isFavorite,
                     recipeImage = drawable
                 )

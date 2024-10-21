@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -48,26 +49,34 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
-        viewModel.getRecipeState(recipeId).observe(viewLifecycleOwner) { state ->
+        viewModel.loadRecipe(recipeId)
 
-            customAdapterIngredient.updateIngredients(state.numberServings)
-            customAdapterIngredient.dataSet = state.recipe?.ingredients
-            customAdapterMethod.notifyDataSetChanged()
-            customAdapterMethod.dataSet = state.recipe?.method
-            customAdapterMethod.notifyDataSetChanged()
+        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
 
-            with(recipeBinding) {
+            if (state.recipe != null) {
 
-                tvRecipeTitle.text = state.recipe?.title
+                customAdapterIngredient.updateIngredients(state.numberServings)
+                customAdapterIngredient.dataSet = state.recipe?.ingredients
+                customAdapterMethod.notifyDataSetChanged()
+                customAdapterMethod.dataSet = state.recipe?.method
+                customAdapterMethod.notifyDataSetChanged()
 
-                imgRecipe.setImageDrawable(state?.recipeImage)
+                with(recipeBinding) {
 
-                tvNumberOfServings.text = state?.numberServings.toString()
+                    tvRecipeTitle.text = state.recipe?.title
 
-                if (state?.isFavorites == true)
-                    ibFavorites.setImageResource(R.drawable.ic_heart)
-                else
-                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                    imgRecipe.setImageDrawable(state?.recipeImage)
+
+                    tvNumberOfServings.text = state?.numberServings.toString()
+
+                    if (state?.isFavorites == true)
+                        ibFavorites.setImageResource(R.drawable.ic_heart)
+                    else
+                        ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                }
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         recipeBinding.ibFavorites.setOnClickListener {
@@ -76,7 +85,6 @@ class RecipeFragment : Fragment() {
         setPaddingIngredientListLayout()
         setDivider()
     }
-
 
     private fun setPaddingIngredientListLayout() {
         val ingredientListLeanerLayout = recipeBinding.llIngredientList

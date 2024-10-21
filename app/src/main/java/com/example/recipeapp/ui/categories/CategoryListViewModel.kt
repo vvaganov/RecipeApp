@@ -10,20 +10,21 @@ class CategoryListViewModel() : ViewModel() {
 
     private val repository = RecipeRepository()
 
-    private val categoryList: MutableLiveData<List<Category>?> = MutableLiveData(emptyList())
+    private val _categoryListState = MutableLiveData(CategoryListUiState())
+    val categoryListState: LiveData<CategoryListUiState> get() = _categoryListState
 
-    fun getCategoryList(): LiveData<List<Category>?> {
-        loadCategoryList()
-        return categoryList
-    }
 
-    private fun loadCategoryList() {
+    fun loadCategoryList() {
         repository.getCategoryList { list ->
-            categoryList.postValue(list)
+            _categoryListState.postValue(
+                categoryListState.value?.copy(
+                    categoryList = list
+                )
+            )
         }
     }
-}
 
-data class CategoryListUiState(
-    val categoryList: List<Category>? = emptyList()
-)
+    data class CategoryListUiState(
+        val categoryList: List<Category>? = emptyList()
+    )
+}

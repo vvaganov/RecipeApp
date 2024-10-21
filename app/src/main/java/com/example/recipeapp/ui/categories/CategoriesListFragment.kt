@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.recipeapp.Constants.LOAD_ERROR
+import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentListCategoriesBinding
 import com.example.recipeapp.model.Category
 
@@ -38,12 +38,15 @@ class CategoriesListFragment : Fragment() {
         val customAdapter = CategoriesListAdapter(emptyList())
         categoriesListBinding.rvCategories.adapter = customAdapter
 
-        viewModel.getCategoryList().observe(viewLifecycleOwner) { categoryList ->
-            if (categoryList != null) {
-                customAdapter.dataSet = categoryList
+        viewModel.loadCategoryList()
+
+        viewModel.categoryListState.observe(viewLifecycleOwner) { categoryList ->
+            if (categoryList.categoryList != null) {
+                customAdapter.dataSet = categoryList.categoryList
                 customAdapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(requireContext(), LOAD_ERROR, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }
@@ -57,15 +60,10 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesListByCategoryId(category: Category) {
-
-        if (category != null) {
-            val category =
-                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
-                    category
-                )
-            findNavController().navigate(category)
-        } else {
-            throw IllegalArgumentException("There is no such category")
-        }
+        val navDirection =
+            CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                category
+            )
+        findNavController().navigate(navDirection)
     }
 }

@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.recipeapp.Constants.LOAD_ERROR
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
 import com.example.recipeapp.ui.recipes.listRecipes.RecipeListAdapter
@@ -43,11 +42,12 @@ class FavoritesFragment : Fragment() {
 
                 } else {
                     favoriteFragmentBinding.tvEmptyFavoriteList.visibility = View.GONE
-                    customAdapter.dataSet = state.favoritesSet ?: emptyList()
+                    customAdapter.dataSet = state.favoritesSet
                     customAdapter.notifyDataSetChanged()
                 }
             } else {
-                Toast.makeText(requireContext(), LOAD_ERROR, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
