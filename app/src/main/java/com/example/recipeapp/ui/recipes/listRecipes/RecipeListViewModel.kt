@@ -20,8 +20,19 @@ class RecipeListViewModel(
     private val _recipeListState = MutableLiveData(RecipeListUiState())
     val recipeListState: LiveData<RecipeListUiState> get() = _recipeListState
 
-    fun loadRecipeList(category: Category) {
+    fun loadRecipeList(category: Category): LiveData<RecipeListUiState> {
 
+        repository.getRecipeListByCategoryId(category.id) { recipeList ->
+            _recipeListState.postValue(
+                recipeListState.value?.copy(
+                    recipeList = recipeList
+                )
+            )
+        }
+        return recipeListState
+    }
+
+    fun getImage(category: Category): Drawable? {
         var drawable: Drawable? = null
         try {
             val inputStream: InputStream? =
@@ -30,21 +41,10 @@ class RecipeListViewModel(
         } catch (e: Exception) {
             Log.e("!!!", e.stackTrace.toString())
         }
-        _recipeListState.value = recipeListState.value?.copy(
-            titleImg = drawable,
-            titleText = category.title,
-            recipeList = getRecipesByCategoryId(category.id)
-        )
-    }
-
-    private fun getRecipesByCategoryId(categoryId: Int?): List<Recipe> {
-        val listRecipe = repository.getRecipe()
-        return if (categoryId == 0) listRecipe else emptyList()
+        return drawable
     }
 }
 
 data class RecipeListUiState(
-    val titleImg: Drawable? = null,
-    val titleText: String? = null,
-    val recipeList: List<Recipe> = emptyList()
+    val recipeList: List<Recipe>? = emptyList()
 )

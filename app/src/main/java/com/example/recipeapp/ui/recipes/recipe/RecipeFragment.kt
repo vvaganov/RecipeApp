@@ -1,10 +1,12 @@
 package com.example.recipeapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -29,16 +31,11 @@ class RecipeFragment : Fragment() {
         return recipeBinding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI()
-    }
-
-    private fun initUI() {
 
         val recipeId = args.recipeId
-
-        viewModel.loadRecipe(recipeId)
 
         with(recipeBinding.sbNumberOfServings) {
             setOnSeekBarChangeListener(
@@ -52,24 +49,34 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
+        viewModel.loadRecipe(recipeId)
+
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
 
-            customAdapterIngredient.updateIngredients(state.numberServings)
-            customAdapterIngredient.dataSet = state.recipe?.ingredients
-            customAdapterMethod.dataSet = state.recipe?.method
+            if (state.recipe != null) {
 
-            with(recipeBinding) {
+                customAdapterIngredient.updateIngredients(state.numberServings)
+                customAdapterIngredient.dataSet = state.recipe?.ingredients
+                customAdapterMethod.notifyDataSetChanged()
+                customAdapterMethod.dataSet = state.recipe?.method
+                customAdapterMethod.notifyDataSetChanged()
 
-                tvRecipeTitle.text = state.recipe?.title
+                with(recipeBinding) {
 
-                imgRecipe.setImageDrawable(state?.recipeImage)
+                    tvRecipeTitle.text = state.recipe?.title
 
-                tvNumberOfServings.text = state?.numberServings.toString()
+                    imgRecipe.setImageDrawable(state?.recipeImage)
 
-                if (state?.isFavorites == true)
-                    ibFavorites.setImageResource(R.drawable.ic_heart)
-                else
-                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                    tvNumberOfServings.text = state?.numberServings.toString()
+
+                    if (state?.isFavorites == true)
+                        ibFavorites.setImageResource(R.drawable.ic_heart)
+                    else
+                        ibFavorites.setImageResource(R.drawable.ic_heart_empty)
+                }
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         recipeBinding.ibFavorites.setOnClickListener {

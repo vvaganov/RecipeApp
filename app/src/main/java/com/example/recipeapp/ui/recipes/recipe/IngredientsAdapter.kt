@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 import com.example.recipeapp.databinding.ItemIngredientBinding
 import com.example.recipeapp.model.Ingredient
 import java.math.BigDecimal
@@ -35,17 +33,25 @@ class IngredientsAdapter(var dataSet: List<Ingredient>?) :
     @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val recipe = dataSet?.get(position)
-        val totalQuantity = BigDecimal(recipe?.quantity) * BigDecimal(quantity)
 
-        val displayQuantity = totalQuantity
-            .setScale(1, RoundingMode.HALF_UP)
-            .stripTrailingZeros()
-            .toPlainString()
+        try {
+            val totalQuantity = BigDecimal(recipe?.quantity) * BigDecimal(quantity)
 
-        with(viewHolder) {
-            textIngredientViewTitle.text = recipe?.description
-            textUnitOfMeasureViewTitle.text =
-                displayQuantity.toString() + " " + recipe?.unitOfMeasure
+            val displayQuantity = totalQuantity
+                .setScale(1, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString()
+
+            with(viewHolder) {
+                textIngredientViewTitle.text = recipe?.description
+                textUnitOfMeasureViewTitle.text =
+                    displayQuantity.toString() + " " + recipe?.unitOfMeasure
+            }
+        } catch (e:Exception){
+            with(viewHolder) {
+                textIngredientViewTitle.text = recipe?.description
+                textUnitOfMeasureViewTitle.text = recipe?.quantity
+            }
         }
     }
 
