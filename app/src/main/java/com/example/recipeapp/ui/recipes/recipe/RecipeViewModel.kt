@@ -10,16 +10,12 @@ import androidx.lifecycle.MutableLiveData
 import com.example.recipeapp.Constants.PREF_FILE_NAME
 import com.example.recipeapp.data.FavoritesLocalDataSources
 import com.example.recipeapp.data.FavoritesRepository
-import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Recipe
 import java.io.InputStream
 
 class RecipeViewModel(
     private val application: Application,
 ) : AndroidViewModel(application) {
-
-    private val recipeRepository: RecipeRepository =
-        RecipeRepository()
 
     private val favoritesRepository: FavoritesRepository =
         FavoritesRepository(
@@ -37,32 +33,32 @@ class RecipeViewModel(
 
         val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
 
-        recipeRepository.getRecipeById(recipeId) { recipe ->
-            var drawable: Drawable? = null
-            try {
-                val inputStream: InputStream? =
-                    application.assets?.open("${recipe?.imageUrl}")
-                drawable = Drawable.createFromStream(inputStream, null)
-            } catch (e: Exception) {
-                Log.e("!!!", e.stackTrace.toString())
-            }
-            _recipeState.postValue(
-                recipeState.value?.copy(
-                    recipe = recipe,
-                    isFavorites = isFavorite,
-                    recipeImage = drawable
-                )
+        _recipeState.postValue(
+            recipeState.value?.copy(
+                isFavorites = isFavorite,
             )
-        }
+        )
     }
 
-    fun onFavoritesClicked(recipeId: Int?) {
-        fun isFavorites() = favoritesRepository.checkIsFavorites(recipeId)
+    fun getImageRecipe(recipeImageUrl: String): Drawable? {
+        var drawable: Drawable? = null
+        try {
+            val inputStream: InputStream? =
+                application.assets?.open("$recipeImageUrl")
+            drawable = Drawable.createFromStream(inputStream, null)
+        } catch (e: Exception) {
+            Log.e("!!!", e.stackTrace.toString())
+        }
+        return drawable
+    }
+
+    fun onFavoritesClicked(recipe: Recipe) {
+        fun isFavorites() = favoritesRepository.checkIsFavorites(recipe.id)
         val favoriteSet = favoritesRepository.getRecipeData()
         val newSet = if (isFavorites()) {
-            favoriteSet.minus(recipeId.toString())
+            favoriteSet.minus(recipe.id.toString())
         } else {
-            favoriteSet.plus(recipeId.toString())
+            favoriteSet.plus(recipe.id.toString())
         }
         favoritesRepository.setRecipeData(newSet)
         _recipeState.value = recipeState.value?.copy(isFavorites = isFavorites())
@@ -73,9 +69,7 @@ class RecipeViewModel(
     }
 
     data class RecipeUiState(
-        val recipe: Recipe? = null,
         val isFavorites: Boolean = false,
         val numberServings: Int = 1,
-        val recipeImage: Drawable? = null
     )
 }

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentFavoritesBinding
+import com.example.recipeapp.model.Recipe
 import com.example.recipeapp.ui.recipes.listRecipes.RecipeListAdapter
 
 class FavoritesFragment : Fragment() {
@@ -33,35 +34,39 @@ class FavoritesFragment : Fragment() {
         val customAdapter = RecipeListAdapter(emptyList())
         favoriteFragmentBinding.rvRecipeFavoritesList.adapter = customAdapter
 
-        viewModel.getFavoritesListState().observe(viewLifecycleOwner) { state ->
+        viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
 
-            if (state.favoritesSet != null) {
-                if (state.favoritesSet.isEmpty()) {
-                    favoriteFragmentBinding.tvEmptyFavoriteList.text =
-                        getString(R.string.empty_favorite_list_message)
+            if (state.favoritesSet?.isEmpty() == true) {
+                favoriteFragmentBinding.tvEmptyFavoriteList.text =
+                    getString(R.string.empty_favorite_list_message)
 
-                } else {
+            } else {
+                if (state.favoritesSet != null) {
                     favoriteFragmentBinding.tvEmptyFavoriteList.visibility = View.GONE
                     customAdapter.dataSet = state.favoritesSet
                     customAdapter.notifyDataSetChanged()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.load_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                 }
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
-                    .show()
             }
         }
 
         customAdapter.setOnItemClickListener(
             object : RecipeListAdapter.OnItemClickListener {
-                override fun onItemClick(recipeId: Int) {
-                    openRecipeByRecipeId(recipeId)
+                override fun onItemClick(recipe: Recipe) {
+                    openRecipeByRecipeId(recipe)
                 }
             }
         )
     }
 
-    private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipeId = FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipeId)
-        findNavController().navigate(recipeId)
+    private fun openRecipeByRecipeId(recipe: Recipe) {
+        val recipe = FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipe)
+        findNavController().navigate(recipe)
     }
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -35,7 +34,7 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recipeId = args.recipeId
+        val recipe = args.recipe
 
         with(recipeBinding.sbNumberOfServings) {
             setOnSeekBarChangeListener(
@@ -49,38 +48,33 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
-        viewModel.loadRecipe(recipeId)
+        recipeBinding.tvRecipeTitle.text = recipe.title
+        recipeBinding.imgRecipe.setImageDrawable(viewModel.getImageRecipe(recipe.imageUrl))
+
+        viewModel.loadRecipe(recipe.id)
+
+        customAdapterIngredient.dataSet = recipe.ingredients
+        customAdapterMethod.notifyDataSetChanged()
+        customAdapterMethod.dataSet = recipe.method
+        customAdapterMethod.notifyDataSetChanged()
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
 
-            if (state.recipe != null) {
+            customAdapterIngredient.updateIngredients(state.numberServings)
 
-                customAdapterIngredient.updateIngredients(state.numberServings)
-                customAdapterIngredient.dataSet = state.recipe?.ingredients
-                customAdapterMethod.notifyDataSetChanged()
-                customAdapterMethod.dataSet = state.recipe?.method
-                customAdapterMethod.notifyDataSetChanged()
+            with(recipeBinding) {
 
-                with(recipeBinding) {
+                tvNumberOfServings.text = state?.numberServings.toString()
 
-                    tvRecipeTitle.text = state.recipe?.title
-
-                    imgRecipe.setImageDrawable(state?.recipeImage)
-
-                    tvNumberOfServings.text = state?.numberServings.toString()
-
-                    if (state?.isFavorites == true)
-                        ibFavorites.setImageResource(R.drawable.ic_heart)
-                    else
-                        ibFavorites.setImageResource(R.drawable.ic_heart_empty)
-                }
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)
-                    .show()
+                if (state?.isFavorites == true)
+                    ibFavorites.setImageResource(R.drawable.ic_heart)
+                else
+                    ibFavorites.setImageResource(R.drawable.ic_heart_empty)
             }
         }
+
         recipeBinding.ibFavorites.setOnClickListener {
-            viewModel.onFavoritesClicked(recipeId)
+            viewModel.onFavoritesClicked(recipe)
         }
         setPaddingIngredientListLayout()
         setDivider()

@@ -40,9 +40,9 @@ class CategoriesListFragment : Fragment() {
 
         viewModel.loadCategoryList()
 
-        viewModel.categoryListState.observe(viewLifecycleOwner) { categoryList ->
-            if (categoryList.categoryList != null) {
-                customAdapter.dataSet = categoryList.categoryList
+        viewModel.categoryListState.observe(viewLifecycleOwner) { state ->
+            if (state.categoryList != null) {
+                customAdapter.dataSet = state.categoryList
                 customAdapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)

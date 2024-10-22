@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
+import com.example.recipeapp.model.Recipe
 
 class RecipesListFragment : Fragment() {
 
@@ -39,6 +40,7 @@ class RecipesListFragment : Fragment() {
         recipesListBinding.rvRecipeList.adapter = customAdapter
 
         viewModel.loadRecipeList(category)
+
         recipesListBinding.tvRecipeList.text = category.title
         recipesListBinding.imgRecipeList.setImageDrawable(viewModel.getImage(category))
 
@@ -53,16 +55,16 @@ class RecipesListFragment : Fragment() {
         }
         customAdapter.setOnItemClickListener(
             object : RecipeListAdapter.OnItemClickListener {
-                override fun onItemClick(recipeId: Int) {
-                    openRecipeByRecipeId(recipeId)
+                override fun onItemClick(recipe: Recipe) {
+                    openRecipeByRecipeId(recipe)
                 }
             }
         )
     }
 
-    private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipeId =
-            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
-        findNavController().navigate(recipeId)
+    private fun openRecipeByRecipeId(recipe: Recipe) {
+        val recipe =
+            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipe)
+        findNavController().navigate(recipe)
     }
 }
