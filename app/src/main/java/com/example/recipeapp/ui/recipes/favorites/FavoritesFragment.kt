@@ -34,12 +34,13 @@ class FavoritesFragment : Fragment() {
         val customAdapter = RecipeListAdapter(emptyList())
         favoriteFragmentBinding.rvRecipeFavoritesList.adapter = customAdapter
 
+        viewModel.loadFavoritesList()
+
         viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
 
             if (state.favoritesSet?.isEmpty() == true) {
                 favoriteFragmentBinding.tvEmptyFavoriteList.text =
                     getString(R.string.empty_favorite_list_message)
-
             } else {
                 if (state.favoritesSet != null) {
                     favoriteFragmentBinding.tvEmptyFavoriteList.visibility = View.GONE
