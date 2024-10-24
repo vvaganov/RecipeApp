@@ -17,7 +17,7 @@ class RecipeListAdapter(var dataSet: List<Recipe>) :
     RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(recipeId: Int)
+        fun onItemClick(recipe: Recipe)
     }
 
     private var itemClickListener: OnItemClickListener? = null
@@ -50,7 +50,7 @@ class RecipeListAdapter(var dataSet: List<Recipe>) :
                 Log.e("!!!", e.stackTrace.toString())
             }
             textViewTitle.text = recipe.title
-            itemView.setOnClickListener { itemClickListener?.onItemClick(recipe.id) }
+            itemView.setOnClickListener { itemClickListener?.onItemClick(recipe) }
         }
     }
 

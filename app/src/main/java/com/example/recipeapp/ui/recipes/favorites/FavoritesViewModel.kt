@@ -22,19 +22,24 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
         )
     )
 
-    private val _favoritesState = MutableLiveData(FavoritesUiState())
+    private val _favoritesState = MutableLiveData(FavoritesUiState(emptyList()))
     val favoritesState: LiveData<FavoritesUiState> get() = _favoritesState
 
     fun loadFavoritesList() {
-        val favoritesRecipeSetId = favoritesRepository.getRecipeData().map { it.toInt() }.toSet()
-        val favoriteRecipeList = recipeRepository.getRecipesByIds(favoritesRecipeSetId)
-        if (favoriteRecipeList.isNotEmpty()) {
-            _favoritesState.value = favoritesState.value?.copy(
-                favoritesSet = favoriteRecipeList
+        val favoritesRecipeSetId = favoritesRepository.getRecipeData()
+
+        recipeRepository.getListRecipeByListId(
+            favoritesRecipeSetId.map { it.toInt() }.toSet().joinToString(",")
+        ) { recipeList ->
+            _favoritesState.postValue(
+                favoritesState.value?.copy(
+                    favoritesSet = recipeList
+                )
             )
         }
     }
 }
+
 data class FavoritesUiState(
-    val favoritesSet: List<Recipe> = emptyList(),
+    val favoritesSet: List<Recipe>?
 )

@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,16 +30,11 @@ class RecipeFragment : Fragment() {
         return recipeBinding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI()
-    }
 
-    private fun initUI() {
-
-        val recipeId = args.recipeId
-
-        viewModel.loadRecipe(recipeId)
+        val recipe = args.recipe
 
         with(recipeBinding.sbNumberOfServings) {
             setOnSeekBarChangeListener(
@@ -52,17 +48,21 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvIngredients.adapter = customAdapterIngredient
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
+        recipeBinding.tvRecipeTitle.text = recipe.title
+        recipeBinding.imgRecipe.setImageDrawable(viewModel.getImageRecipe(recipe.imageUrl))
+
+        viewModel.loadRecipe(recipe.id)
+
+        customAdapterIngredient.dataSet = recipe.ingredients
+        customAdapterMethod.notifyDataSetChanged()
+        customAdapterMethod.dataSet = recipe.method
+        customAdapterMethod.notifyDataSetChanged()
+
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
 
             customAdapterIngredient.updateIngredients(state.numberServings)
-            customAdapterIngredient.dataSet = state.recipe?.ingredients
-            customAdapterMethod.dataSet = state.recipe?.method
 
             with(recipeBinding) {
-
-                tvRecipeTitle.text = state.recipe?.title
-
-                imgRecipe.setImageDrawable(state?.recipeImage)
 
                 tvNumberOfServings.text = state?.numberServings.toString()
 
@@ -72,8 +72,9 @@ class RecipeFragment : Fragment() {
                     ibFavorites.setImageResource(R.drawable.ic_heart_empty)
             }
         }
+
         recipeBinding.ibFavorites.setOnClickListener {
-            viewModel.onFavoritesClicked(recipeId)
+            viewModel.onFavoritesClicked(recipe)
         }
         setPaddingIngredientListLayout()
         setDivider()

@@ -43,6 +43,9 @@ android {
 
 dependencies {
 
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
@@ -59,4 +62,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 }

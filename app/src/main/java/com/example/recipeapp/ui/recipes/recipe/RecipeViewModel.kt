@@ -10,16 +10,12 @@ import androidx.lifecycle.MutableLiveData
 import com.example.recipeapp.Constants.PREF_FILE_NAME
 import com.example.recipeapp.data.FavoritesLocalDataSources
 import com.example.recipeapp.data.FavoritesRepository
-import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Recipe
 import java.io.InputStream
 
 class RecipeViewModel(
     private val application: Application,
 ) : AndroidViewModel(application) {
-
-    private val recipeRepository: RecipeRepository =
-        RecipeRepository()
 
     private val favoritesRepository: FavoritesRepository =
         FavoritesRepository(
@@ -33,33 +29,36 @@ class RecipeViewModel(
     private val _recipeState = MutableLiveData(RecipeUiState())
     val recipeState: LiveData<RecipeUiState> get() = _recipeState
 
-    fun loadRecipe(recipeId: Int?) {
-        //TODO `load from network`
-        val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
-        val recipe = recipeRepository.getRecipeById(recipeId)
-        var drawable: Drawable? = null
+    fun loadRecipe(recipeId: Int) {
 
+        val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
+
+        _recipeState.postValue(
+            recipeState.value?.copy(
+                isFavorites = isFavorite,
+            )
+        )
+    }
+
+    fun getImageRecipe(recipeImageUrl: String): Drawable? {
+        var drawable: Drawable? = null
         try {
             val inputStream: InputStream? =
-                application.assets?.open("${recipe?.imageUrl}")
+                application.assets?.open("$recipeImageUrl")
             drawable = Drawable.createFromStream(inputStream, null)
         } catch (e: Exception) {
             Log.e("!!!", e.stackTrace.toString())
         }
-        _recipeState.value = recipeState.value?.copy(
-            recipe = recipe,
-            isFavorites = isFavorite,
-            recipeImage = drawable
-        )
+        return drawable
     }
 
-    fun onFavoritesClicked(recipeId: Int?) {
-        fun isFavorites() = favoritesRepository.checkIsFavorites(recipeId)
+    fun onFavoritesClicked(recipe: Recipe) {
+        fun isFavorites() = favoritesRepository.checkIsFavorites(recipe.id)
         val favoriteSet = favoritesRepository.getRecipeData()
         val newSet = if (isFavorites()) {
-            favoriteSet.minus(recipeId.toString())
+            favoriteSet.minus(recipe.id.toString())
         } else {
-            favoriteSet.plus(recipeId.toString())
+            favoriteSet.plus(recipe.id.toString())
         }
         favoritesRepository.setRecipeData(newSet)
         _recipeState.value = recipeState.value?.copy(isFavorites = isFavorites())
@@ -70,9 +69,7 @@ class RecipeViewModel(
     }
 
     data class RecipeUiState(
-        val recipe: Recipe? = null,
         val isFavorites: Boolean = false,
         val numberServings: Int = 1,
-        val recipeImage: Drawable? = null
     )
 }
