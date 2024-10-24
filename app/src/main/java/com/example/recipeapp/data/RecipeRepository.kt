@@ -28,7 +28,7 @@ class RecipeRepository {
         threadPool.submit {
             try {
                 val categoryList = service.getCategories().execute().body()
-                callback(categoryList)
+                callback(categoryList ?: emptyList())
             } catch (e: Exception) {
                 callback(null)
             }

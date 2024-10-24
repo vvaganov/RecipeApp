@@ -2,8 +2,6 @@ package com.example.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
-import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +9,6 @@ import com.example.recipeapp.Constants.PREF_FILE_NAME
 import com.example.recipeapp.data.FavoritesLocalDataSources
 import com.example.recipeapp.data.FavoritesRepository
 import com.example.recipeapp.model.Recipe
-import java.io.InputStream
 
 class RecipeViewModel(
     private val application: Application,
@@ -38,18 +35,6 @@ class RecipeViewModel(
                 isFavorites = isFavorite,
             )
         )
-    }
-
-    fun getImageRecipe(recipeImageUrl: String): Drawable? {
-        var drawable: Drawable? = null
-        try {
-            val inputStream: InputStream? =
-                application.assets?.open("$recipeImageUrl")
-            drawable = Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("!!!", e.stackTrace.toString())
-        }
-        return drawable
     }
 
     fun onFavoritesClicked(recipe: Recipe) {

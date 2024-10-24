@@ -9,6 +9,8 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.example.recipeapp.Constants.BASE_API_IMAGE_URL
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipeBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -49,7 +51,15 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
         recipeBinding.tvRecipeTitle.text = recipe.title
-        recipeBinding.imgRecipe.setImageDrawable(viewModel.getImageRecipe(recipe.imageUrl))
+        try {
+            Glide.with(this)
+                .load(BASE_API_IMAGE_URL + recipe.imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(recipeBinding.imgRecipe)
+        } catch (e: Exception) {
+            recipeBinding.imgRecipe.setImageResource(R.drawable.img_error)
+        }
 
         viewModel.loadRecipe(recipe.id)
 

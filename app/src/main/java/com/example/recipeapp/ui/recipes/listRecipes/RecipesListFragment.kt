@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.example.recipeapp.Constants.BASE_API_IMAGE_URL
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 import com.example.recipeapp.model.Recipe
@@ -37,12 +39,17 @@ class RecipesListFragment : Fragment() {
         val category = args.category
 
         val customAdapter = RecipeListAdapter(emptyList())
-        recipesListBinding.rvRecipeList.adapter = customAdapter
-
         viewModel.loadRecipeList(category)
 
-        recipesListBinding.tvRecipeList.text = category.title
-        recipesListBinding.imgRecipeList.setImageDrawable(viewModel.getImage(category))
+        with(recipesListBinding) {
+            rvRecipeList.adapter = customAdapter
+            tvRecipeList.text = category.title
+            Glide.with(requireContext())
+                .load(BASE_API_IMAGE_URL + category.imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imgRecipeList)
+        }
 
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
             if (state.recipeList != null) {

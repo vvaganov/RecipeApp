@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui.recipes.listRecipes
 
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.recipeapp.Constants.BASE_API_IMAGE_URL
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ItemRecipeBinding
 import com.example.recipeapp.model.Recipe
-import java.io.InputStream
 
 class RecipeListAdapter(var dataSet: List<Recipe>) :
     RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
@@ -42,10 +42,11 @@ class RecipeListAdapter(var dataSet: List<Recipe>) :
         val recipe = dataSet[position]
         with(viewHolder) {
             try {
-                val inputStream: InputStream? =
-                    itemView.context?.assets?.open(recipe.imageUrl)
-                val drawable = Drawable.createFromStream(inputStream, null)
-                viewHolder.imageViewTitle.setImageDrawable(drawable)
+                Glide.with(itemView.context)
+                    .load(BASE_API_IMAGE_URL + recipe.imageUrl)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .into(imageViewTitle)
             } catch (e: Exception) {
                 Log.e("!!!", e.stackTrace.toString())
             }

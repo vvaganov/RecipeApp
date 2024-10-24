@@ -1,15 +1,13 @@
 package com.example.recipeapp.ui.recipes.listRecipes
 
 import android.app.Application
-import android.graphics.drawable.Drawable
-import android.util.Log
+
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
-import java.io.InputStream
 
 class RecipeListViewModel(
     private val application: Application
@@ -30,18 +28,6 @@ class RecipeListViewModel(
             )
         }
         return recipeListState
-    }
-
-    fun getImage(category: Category): Drawable? {
-        var drawable: Drawable? = null
-        try {
-            val inputStream: InputStream? =
-                application.assets?.open(category.imageUrl)
-            drawable = Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("!!!", e.stackTrace.toString())
-        }
-        return drawable
     }
 }
 
