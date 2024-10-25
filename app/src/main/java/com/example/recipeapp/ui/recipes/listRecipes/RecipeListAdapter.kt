@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui.recipes.listRecipes
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,15 +40,11 @@ class RecipeListAdapter(var dataSet: List<Recipe>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val recipe = dataSet[position]
         with(viewHolder) {
-            try {
-                Glide.with(itemView.context)
-                    .load(BASE_API_IMAGE_URL + recipe.imageUrl)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .into(imageViewTitle)
-            } catch (e: Exception) {
-                Log.e("!!!", e.stackTrace.toString())
-            }
+            Glide.with(itemView.context)
+                .load(BASE_API_IMAGE_URL + recipe.imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imageViewTitle)
             textViewTitle.text = recipe.title
             itemView.setOnClickListener { itemClickListener?.onItemClick(recipe) }
         }

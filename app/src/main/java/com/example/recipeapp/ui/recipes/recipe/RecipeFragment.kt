@@ -51,15 +51,11 @@ class RecipeFragment : Fragment() {
         recipeBinding.rvMethod.adapter = customAdapterMethod
 
         recipeBinding.tvRecipeTitle.text = recipe.title
-        try {
-            Glide.with(this)
-                .load(BASE_API_IMAGE_URL + recipe.imageUrl)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_error)
-                .into(recipeBinding.imgRecipe)
-        } catch (e: Exception) {
-            recipeBinding.imgRecipe.setImageResource(R.drawable.img_error)
-        }
+        Glide.with(this)
+            .load(BASE_API_IMAGE_URL + recipe.imageUrl)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(recipeBinding.imgRecipe)
 
         viewModel.loadRecipe(recipe.id)
 

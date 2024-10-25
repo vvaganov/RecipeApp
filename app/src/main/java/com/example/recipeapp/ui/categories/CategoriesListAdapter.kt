@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui.categories
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,15 +42,11 @@ class CategoriesListAdapter(var dataSet: List<Category>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val category = dataSet[position]
         with(viewHolder) {
-            try {
-                Glide.with(itemView.context)
-                    .load(BASE_API_IMAGE_URL + category.imageUrl)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .into(imageViewTitle)
-            } catch (e: Exception) {
-                Log.e("!!!", e.stackTrace.toString())
-            }
+            Glide.with(itemView.context)
+                .load(BASE_API_IMAGE_URL + category.imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imageViewTitle)
             textViewTitle.text = category.title
             textViewDescription.text = category.description
             itemView.setOnClickListener { itemClickListener?.onItemClick(category) }
