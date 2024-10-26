@@ -3,16 +3,15 @@ package com.example.recipeapp.data
 import com.example.recipeapp.Constants.BASE_API_URL
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class RecipeRepository {
 
-    private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
     private val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -23,9 +22,9 @@ class RecipeRepository {
 
     private val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
-    fun getCategoryList(callback: (List<Category>?) -> Unit) {
+    suspend fun getCategoryList(callback: (List<Category>?) -> Unit) {
 
-        threadPool.submit {
+        withContext(Dispatchers.IO) {
             try {
                 val categoryList = service.getCategories().execute().body()
                 callback(categoryList ?: emptyList())
@@ -35,11 +34,12 @@ class RecipeRepository {
         }
     }
 
-    fun getRecipeListByCategoryId(
+    suspend fun getRecipeListByCategoryId(
         categoryId: Int,
         callback: (List<Recipe>?) -> Unit
     ) {
-        threadPool.submit {
+
+        withContext(Dispatchers.IO) {
             try {
                 val recipeList = service.getListRecipeByCategoryId(categoryId).execute().body()
                 callback(recipeList)
@@ -49,8 +49,9 @@ class RecipeRepository {
         }
     }
 
-    fun getRecipeById(recipeId: Int, callback: (Recipe?) -> Unit) {
-        threadPool.submit {
+    suspend fun getRecipeById(recipeId: Int, callback: (Recipe?) -> Unit) {
+
+        withContext(Dispatchers.IO) {
             try {
                 val recipe = service.getRecipeById(recipeId).execute().body()
                 callback(recipe)
@@ -60,14 +61,21 @@ class RecipeRepository {
         }
     }
 
-    fun getCategoryById(categoryId: Int) {
-        threadPool.submit {
+
+    suspend fun getCategoryById(categoryId: Int) {
+        withContext(Dispatchers.IO) {
+
             val category = service.getCategoryById(categoryId).execute().body()
         }
     }
 
-    fun getListRecipeByListId(favoritesListIdInt: String, callback: (List<Recipe>?) -> Unit) {
-        threadPool.submit {
+    suspend fun getListRecipeByListId(
+        favoritesListIdInt: String,
+        callback: (List<Recipe>?) -> Unit
+    ) {
+
+        withContext(Dispatchers.IO) {
+
             try {
                 val listRecipe = service.getListRecipeByListId(favoritesListIdInt).execute().body()
                 callback(listRecipe)

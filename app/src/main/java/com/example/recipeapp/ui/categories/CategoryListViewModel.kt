@@ -3,8 +3,10 @@ package com.example.recipeapp.ui.categories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Category
+import kotlinx.coroutines.launch
 
 class CategoryListViewModel() : ViewModel() {
 
@@ -13,14 +15,16 @@ class CategoryListViewModel() : ViewModel() {
     private val _categoryListState = MutableLiveData(CategoryListUiState())
     val categoryListState: LiveData<CategoryListUiState> get() = _categoryListState
 
-
     fun loadCategoryList() {
-        repository.getCategoryList { list ->
-            _categoryListState.postValue(
-                categoryListState.value?.copy(
-                    categoryList = list
+
+        viewModelScope.launch {
+            repository.getCategoryList { list ->
+                _categoryListState.postValue(
+                    categoryListState.value?.copy(
+                        categoryList = list
+                    )
                 )
-            )
+            }
         }
     }
 
