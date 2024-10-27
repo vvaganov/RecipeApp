@@ -21,19 +21,16 @@ class RecipeListViewModel(
     val recipeListState: LiveData<RecipeListUiState> get() = _recipeListState
 
     fun loadRecipeList(category: Category) {
-
         viewModelScope.launch {
-            repository.getRecipeListByCategoryId(category.id) { recipeList ->
-                _recipeListState.postValue(
-                    recipeListState.value?.copy(
-                        recipeList = recipeList
-                    )
+            _recipeListState.postValue(
+                recipeListState.value?.copy(
+                    recipeList = repository.getRecipeListByCategoryId(category.id)
                 )
-            }
+            )
         }
     }
-
-    data class RecipeListUiState(
-        val recipeList: List<Recipe>? = emptyList()
-    )
 }
+
+data class RecipeListUiState(
+    val recipeList: List<Recipe>? = emptyList()
+)

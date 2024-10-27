@@ -31,15 +31,12 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
         val favoritesRecipeSetId = favoritesRepository.getRecipeData()
 
         viewModelScope.launch {
-            recipeRepository.getListRecipeByListId(
-                favoritesRecipeSetId.map { it.toInt() }.toSet().joinToString(",")
-            ) { recipeList ->
-                _favoritesState.postValue(
-                    favoritesState.value?.copy(
-                        favoritesSet = recipeList
-                    )
+            _favoritesState.postValue(
+                favoritesState.value?.copy(
+                    favoritesSet = recipeRepository.getListRecipeByListId(favoritesRecipeSetId.map { it.toInt() }
+                        .toSet().joinToString(","))
                 )
-            }
+            )
         }
     }
 }

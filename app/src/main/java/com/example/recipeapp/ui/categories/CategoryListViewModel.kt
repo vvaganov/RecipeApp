@@ -18,17 +18,15 @@ class CategoryListViewModel() : ViewModel() {
     fun loadCategoryList() {
 
         viewModelScope.launch {
-            repository.getCategoryList { list ->
-                _categoryListState.postValue(
-                    categoryListState.value?.copy(
-                        categoryList = list
-                    )
+            _categoryListState.postValue(
+                categoryListState.value?.copy(
+                    categoryList = repository.getCategoryList()
                 )
-            }
+            )
         }
     }
-
-    data class CategoryListUiState(
-        val categoryList: List<Category>? = emptyList()
-    )
 }
+
+data class CategoryListUiState(
+    val categoryList: List<Category>? = emptyList()
+)
