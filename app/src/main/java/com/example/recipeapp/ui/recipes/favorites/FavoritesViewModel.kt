@@ -5,11 +5,13 @@ import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.Constants.PREF_FILE_NAME
 import com.example.recipeapp.data.FavoritesLocalDataSources
 import com.example.recipeapp.data.FavoritesRepository
 import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Recipe
+import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val application: Application) : AndroidViewModel(application) {
 
@@ -28,12 +30,11 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
     fun loadFavoritesList() {
         val favoritesRecipeSetId = favoritesRepository.getRecipeData()
 
-        recipeRepository.getListRecipeByListId(
-            favoritesRecipeSetId.map { it.toInt() }.toSet().joinToString(",")
-        ) { recipeList ->
+        viewModelScope.launch {
             _favoritesState.postValue(
                 favoritesState.value?.copy(
-                    favoritesSet = recipeList
+                    favoritesSet = recipeRepository.getListRecipeByListId(favoritesRecipeSetId.map { it.toInt() }
+                        .toSet().joinToString(","))
                 )
             )
         }

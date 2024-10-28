@@ -67,4 +67,6 @@ dependencies {
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(libs.glide)
+
+    implementation(libs.kotlinx.coroutines.android)
 }

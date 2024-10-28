@@ -5,9 +5,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
+import kotlinx.coroutines.launch
 
 class RecipeListViewModel(
     private val application: Application
@@ -18,16 +20,14 @@ class RecipeListViewModel(
     private val _recipeListState = MutableLiveData(RecipeListUiState())
     val recipeListState: LiveData<RecipeListUiState> get() = _recipeListState
 
-    fun loadRecipeList(category: Category): LiveData<RecipeListUiState> {
-
-        repository.getRecipeListByCategoryId(category.id) { recipeList ->
+    fun loadRecipeList(category: Category) {
+        viewModelScope.launch {
             _recipeListState.postValue(
                 recipeListState.value?.copy(
-                    recipeList = recipeList
+                    recipeList = repository.getRecipeListByCategoryId(category.id)
                 )
             )
         }
-        return recipeListState
     }
 }
 
