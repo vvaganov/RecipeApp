@@ -22,49 +22,43 @@ class RecipeRepository {
 
     private val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
-    suspend fun getCategoryList(): List<Category>? {
-        return withContext(Dispatchers.IO) {
-            try {
-                service.getCategories().execute().body()
-            } catch (e: Exception) {
-                null
-            }
+    suspend fun getCategoryList(): List<Category>? = withContext(Dispatchers.IO) {
+        try {
+            service.getCategories().execute().body()
+        } catch (e: Exception) {
+            null
         }
     }
 
-    suspend fun getRecipeListByCategoryId(categoryId: Int): List<Recipe>? {
-        return withContext(Dispatchers.IO) {
+    suspend fun getRecipeListByCategoryId(categoryId: Int): List<Recipe>? =
+        withContext(Dispatchers.IO) {
             try {
                 service.getListRecipeByCategoryId(categoryId).execute().body()
             } catch (e: Exception) {
                 null
             }
         }
-    }
 
-    suspend fun getRecipeById(recipeId: Int): Recipe? {
-        return withContext(Dispatchers.IO) {
-            try {
-                service.getRecipeById(recipeId).execute().body()
-            } catch (e: Exception) {
-                null
-            }
+    suspend fun getRecipeById(recipeId: Int): Recipe? = withContext(Dispatchers.IO) {
+        try {
+            service.getRecipeById(recipeId).execute().body()
+        } catch (e: Exception) {
+            null
         }
     }
 
-    suspend fun getCategoryById(categoryId: Int) {
-        return withContext(Dispatchers.IO) {
-            service.getCategoryById(categoryId).execute().body()
-        }
+
+    suspend fun getCategoryById(categoryId: Int) = withContext(Dispatchers.IO) {
+        service.getCategoryById(categoryId).execute().body()
     }
 
-    suspend fun getListRecipeByListId(favoritesListIdInt: String): List<Recipe>? {
-        return withContext(Dispatchers.IO) {
+
+    suspend fun getListRecipeByListId(favoritesListIdInt: String): List<Recipe>? =
+        withContext(Dispatchers.IO) {
             try {
                 service.getListRecipeByListId(favoritesListIdInt).execute().body() ?: emptyList()
             } catch (e: Exception) {
                 null
             }
         }
-    }
 }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.navigation.safeargs.kotlin)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -69,4 +70,9 @@ dependencies {
     implementation(libs.glide)
 
     implementation(libs.kotlinx.coroutines.android)
+
+
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 }
