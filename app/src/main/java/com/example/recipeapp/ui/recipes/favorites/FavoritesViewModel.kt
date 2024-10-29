@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val application: Application) : AndroidViewModel(application) {
 
-    private val recipeRepository = RecipeRepository()
+    private val recipeRepository = RecipeRepository(application)
     private val favoritesRepository = FavoritesRepository(
         FavoritesLocalDataSources(
             (application.getSharedPreferences(

@@ -1,5 +1,7 @@
 package com.example.recipeapp.data
 
+import android.content.Context
+import androidx.room.Room
 import com.example.recipeapp.Constants.BASE_API_URL
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
@@ -10,7 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RecipeRepository {
+class RecipeRepository(context: Context) {
 
     private val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -21,6 +23,23 @@ class RecipeRepository {
         .build()
 
     private val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
+
+    private val db = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, "database-recipe"
+    ).build()
+
+    suspend fun insertHashCategory(category: Category) = withContext(Dispatchers.IO) {
+        db.categoryDao().insertCategory(category)
+    }
+
+    suspend fun getCategoryFromHash(): List<Category>? = withContext(Dispatchers.IO) {
+        try {
+            db.categoryDao().getAllCategory()
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     suspend fun getCategoryList(): List<Category>? = withContext(Dispatchers.IO) {
         try {
@@ -47,11 +66,9 @@ class RecipeRepository {
         }
     }
 
-
     suspend fun getCategoryById(categoryId: Int) = withContext(Dispatchers.IO) {
         service.getCategoryById(categoryId).execute().body()
     }
-
 
     suspend fun getListRecipeByListId(favoritesListIdInt: String): List<Recipe>? =
         withContext(Dispatchers.IO) {
