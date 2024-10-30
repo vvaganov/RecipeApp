@@ -27,7 +27,8 @@ class RecipeRepository(context: Context) {
     private val db = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "database-recipe"
-    ).build()
+    ).fallbackToDestructiveMigration()
+        .build()
 
     suspend fun insertHashCategory(category: Category) = withContext(Dispatchers.IO) {
         db.categoryDao().insertCategory(category)
