@@ -17,23 +17,26 @@ class CategoryListViewModel(private val application: Application) : AndroidViewM
     val categoryListState: LiveData<CategoryListUiState> get() = _categoryListState
 
     fun loadCategoryList() {
-        changeState()
         viewModelScope.launch {
-            repository.getCategoryList()?.forEach { category ->
-                repository.insertHashCategory(category)
-                changeState()
+            loadCategoryFromHash()
+            val categoryListCloud = repository.getCategoryList()
+            if (categoryListCloud
+                    ?.equals(repository.getCategoryFromHash()) == false
+            ) {
+                categoryListCloud.forEach { category ->
+                    repository.insertHashCategory(category)
+                }
+                loadCategoryFromHash()
             }
         }
     }
 
-    private fun changeState() {
-        viewModelScope.launch {
-            _categoryListState.postValue(
-                categoryListState.value?.copy(
-                    categoryList = repository.getCategoryFromHash()
-                )
+    private suspend fun loadCategoryFromHash() {
+        _categoryListState.postValue(
+            categoryListState.value?.copy(
+                categoryList = repository.getCategoryFromHash()
             )
-        }
+        )
     }
 }
 
