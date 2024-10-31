@@ -26,7 +26,7 @@ class RecipeRepository(context: Context) {
 
     private val db = Room.databaseBuilder(
         context,
-        AppDatabase::class.java, "database-recipe"
+        AppDatabase::class.java, "database-recipe_app"
     ).fallbackToDestructiveMigration()
         .build()
 
@@ -48,6 +48,19 @@ class RecipeRepository(context: Context) {
         } catch (e: Exception) {
             null
         }
+    }
+
+    suspend fun getRecipeListFromHash(categoryId: Int): List<Recipe>? =
+        withContext(Dispatchers.IO) {
+            try {
+                db.recipeDao().getAllRecipe(categoryId)
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+    suspend fun insertRecipeToHash(recipe: Recipe) = withContext(Dispatchers.IO) {
+        db.recipeDao().insertRecipe(recipe)
     }
 
     suspend fun getRecipeListByCategoryId(categoryId: Int): List<Recipe>? =
