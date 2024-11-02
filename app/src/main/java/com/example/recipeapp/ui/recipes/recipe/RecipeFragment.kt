@@ -57,7 +57,7 @@ class RecipeFragment : Fragment() {
             .error(R.drawable.img_error)
             .into(recipeBinding.imgRecipe)
 
-        viewModel.loadRecipe(recipe.id)
+        viewModel.loadRecipe(recipe)
 
         customAdapterIngredient.dataSet = recipe.ingredients
         customAdapterMethod.notifyDataSetChanged()
@@ -80,7 +80,7 @@ class RecipeFragment : Fragment() {
         }
 
         recipeBinding.ibFavorites.setOnClickListener {
-            viewModel.onFavoritesClicked(recipe)
+            viewModel.onFavoritesClicked(recipe.id)
         }
         setPaddingIngredientListLayout()
         setDivider()

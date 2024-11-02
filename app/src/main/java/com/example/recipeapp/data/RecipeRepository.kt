@@ -75,6 +75,10 @@ class RecipeRepository(context: Context) {
             }
         }
 
+    suspend fun getRecipeByIdFromCash(recipeId: Int): Recipe = withContext(Dispatchers.IO) {
+        recipeDao.getRecipeById(recipeId)
+    }
+
     suspend fun getRecipeById(recipeId: Int): Recipe? = withContext(Dispatchers.IO) {
         try {
             service.getRecipeById(recipeId).execute().body()
@@ -95,4 +99,15 @@ class RecipeRepository(context: Context) {
                 null
             }
         }
+
+    suspend fun updateRecipe(recipe: Recipe) = withContext(Dispatchers.IO) {
+        recipeDao.updateRecipe(recipe)
+    }
+
+    suspend fun getFavoritesList(isFavorites: Boolean): List<Recipe>? =
+        withContext(Dispatchers.IO) {
+            recipeDao.getFavoritesListRecipe(isFavorites)
+
+        }
+
 }

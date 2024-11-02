@@ -24,8 +24,8 @@ class RecipeListViewModel(
         viewModelScope.launch {
             fromCashRecipeList(category.id)
             val recipeListCloud = repository.getRecipeListByCategoryId(category.id)
-            if (recipeListCloud?.equals(repository.getRecipeListFromCash(category.id)) == false) {
-                recipeListCloud.forEach { recipe ->
+            if (recipeListCloud?.size != repository.getRecipeListFromCash(category.id)?.size) {
+                recipeListCloud?.forEach { recipe ->
                     repository.insertRecipeToCash(recipe.copy(categoryId = category.id))
                 }
                 fromCashRecipeList(category.id)

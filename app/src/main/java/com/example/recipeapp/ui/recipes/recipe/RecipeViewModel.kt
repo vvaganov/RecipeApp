@@ -1,52 +1,43 @@
 package com.example.recipeapp.ui.recipes.recipe
 
 import android.app.Application
-import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.recipeapp.Constants.PREF_FILE_NAME
-import com.example.recipeapp.data.FavoritesLocalDataSources
-import com.example.recipeapp.data.FavoritesRepository
+import androidx.lifecycle.viewModelScope
+import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Recipe
+import kotlinx.coroutines.launch
 
 class RecipeViewModel(
     private val application: Application,
 ) : AndroidViewModel(application) {
 
-    private val favoritesRepository: FavoritesRepository =
-        FavoritesRepository(
-            favoritesLocalDataSources = FavoritesLocalDataSources(
-                (application.getSharedPreferences(
-                    PREF_FILE_NAME, MODE_PRIVATE
-                ))
-            )
-        )
+    private val recipeRepository = RecipeRepository(application)
 
     private val _recipeState = MutableLiveData(RecipeUiState())
     val recipeState: LiveData<RecipeUiState> get() = _recipeState
 
-    fun loadRecipe(recipeId: Int) {
-
-        val isFavorite = favoritesRepository.checkIsFavorites(recipeId)
+    fun loadRecipe(recipe: Recipe) {
 
         _recipeState.postValue(
             recipeState.value?.copy(
-                isFavorites = isFavorite,
+                isFavorites = recipe.isFavorites,
             )
         )
     }
 
-    fun onFavoritesClicked(recipe: Recipe) {
-        fun isFavorites() = favoritesRepository.checkIsFavorites(recipe.id)
-        val favoriteSet = favoritesRepository.getRecipeData()
-        val newSet = if (isFavorites()) {
-            favoriteSet.minus(recipe.id.toString())
-        } else {
-            favoriteSet.plus(recipe.id.toString())
+    fun onFavoritesClicked(recipeId: Int) {
+
+        viewModelScope.launch {
+            val recipe = recipeRepository.getRecipeByIdFromCash(recipeId)
+            recipeRepository.updateRecipe(recipe.copy(isFavorites = !recipe.isFavorites))
+            _recipeState.postValue(
+                recipeState.value?.copy(
+                    isFavorites = recipeRepository.getRecipeByIdFromCash(recipeId).isFavorites
+                )
+            )
         }
-        favoritesRepository.setRecipeData(newSet)
-        _recipeState.value = recipeState.value?.copy(isFavorites = isFavorites())
     }
 
     fun changeNumberOfServing(progress: Int) {
