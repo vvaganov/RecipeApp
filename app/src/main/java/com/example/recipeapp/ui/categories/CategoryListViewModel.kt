@@ -21,10 +21,10 @@ class CategoryListViewModel(private val application: Application) : AndroidViewM
             loadCategoryFromHash()
             val categoryListCloud = repository.getCategoryList()
             if (categoryListCloud
-                    ?.equals(repository.getCategoryFromHash()) == false
+                    ?.equals(repository.getCategoryFromCash()) == false
             ) {
                 categoryListCloud.forEach { category ->
-                    repository.insertHashCategory(category)
+                    repository.insertCashCategory(category)
                 }
                 loadCategoryFromHash()
             }
@@ -34,7 +34,7 @@ class CategoryListViewModel(private val application: Application) : AndroidViewM
     private suspend fun loadCategoryFromHash() {
         _categoryListState.postValue(
             categoryListState.value?.copy(
-                categoryList = repository.getCategoryFromHash()
+                categoryList = repository.getCategoryFromCash()
             )
         )
     }

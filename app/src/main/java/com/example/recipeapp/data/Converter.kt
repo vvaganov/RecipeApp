@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.example.recipeapp.model.Ingredient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.stream.Collectors
 
 class IngredientConverter {
     @TypeConverter
@@ -24,13 +23,8 @@ class IngredientConverter {
 
 class MethodConverter {
     @TypeConverter
-    fun fromMethod(method: List<String?>): String {
-        return method.stream().collect(Collectors.joining(","))
-    }
+    fun fromMethod(method: List<String?>): String = method.joinToString(",")
 
     @TypeConverter
-    fun toMethod(data: String): List<String> {
-        return listOf(*data.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-            .toTypedArray())
-    }
+    fun toMethod(data: String): List<String> = data.split(",")
 }
