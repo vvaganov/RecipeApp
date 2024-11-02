@@ -26,16 +26,20 @@ class RecipeRepository(context: Context) {
 
     private val db = Room.databaseBuilder(
         context,
-        AppDatabase::class.java, "database-recipe"
-    ).build()
+        AppDatabase::class.java, "database-recipe_app"
+    ).fallbackToDestructiveMigration()
+        .build()
+    private val recipeDao by lazy { db.recipeDao() }
+    private val categoryDao by lazy { db.categoryDao() }
 
-    suspend fun insertHashCategory(category: Category) = withContext(Dispatchers.IO) {
-        db.categoryDao().insertCategory(category)
+
+    suspend fun insertCashCategory(category: Category) = withContext(Dispatchers.IO) {
+        categoryDao.insertCategory(category)
     }
 
-    suspend fun getCategoryFromHash(): List<Category>? = withContext(Dispatchers.IO) {
+    suspend fun getCategoryFromCash(): List<Category>? = withContext(Dispatchers.IO) {
         try {
-            db.categoryDao().getAllCategory()
+            categoryDao.getAllCategory()
         } catch (e: Exception) {
             null
         }
@@ -47,6 +51,19 @@ class RecipeRepository(context: Context) {
         } catch (e: Exception) {
             null
         }
+    }
+
+    suspend fun getRecipeListFromCash(categoryId: Int): List<Recipe>? =
+        withContext(Dispatchers.IO) {
+            try {
+                recipeDao.getAllRecipe(categoryId)
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+    suspend fun insertRecipeToCash(recipe: Recipe) = withContext(Dispatchers.IO) {
+        recipeDao.insertRecipe(recipe)
     }
 
     suspend fun getRecipeListByCategoryId(categoryId: Int): List<Recipe>? =

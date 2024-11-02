@@ -6,11 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.data.STUB
 
 class MethodAdapter(var dataSet:List<String>?) :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
-
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textMethodViewTitle: TextView = view.findViewById(R.id.tvMethodText)

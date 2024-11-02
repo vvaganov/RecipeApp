@@ -1,7 +1,6 @@
 package com.example.recipeapp.ui.recipes.listRecipes
 
 import android.app.Application
-
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,13 +20,25 @@ class RecipeListViewModel(
     val recipeListState: LiveData<RecipeListUiState> get() = _recipeListState
 
     fun loadRecipeList(category: Category) {
+
         viewModelScope.launch {
-            _recipeListState.postValue(
-                recipeListState.value?.copy(
-                    recipeList = repository.getRecipeListByCategoryId(category.id)
-                )
-            )
+            fromCashRecipeList(category.id)
+            val recipeListCloud = repository.getRecipeListByCategoryId(category.id)
+            if (recipeListCloud?.equals(repository.getRecipeListFromCash(category.id)) == false) {
+                recipeListCloud.forEach { recipe ->
+                    repository.insertRecipeToCash(recipe.copy(categoryId = category.id))
+                }
+                fromCashRecipeList(category.id)
+            }
         }
+    }
+
+    private suspend fun fromCashRecipeList(categoryId: Int) {
+        _recipeListState.postValue(
+            recipeListState.value?.copy(
+                recipeList = repository.getRecipeListFromCash(categoryId)
+            )
+        )
     }
 }
 

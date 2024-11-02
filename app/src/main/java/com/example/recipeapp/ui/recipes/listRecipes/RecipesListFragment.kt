@@ -39,6 +39,7 @@ class RecipesListFragment : Fragment() {
         val category = args.category
 
         val customAdapter = RecipeListAdapter(emptyList())
+
         viewModel.loadRecipeList(category)
 
         with(recipesListBinding) {
