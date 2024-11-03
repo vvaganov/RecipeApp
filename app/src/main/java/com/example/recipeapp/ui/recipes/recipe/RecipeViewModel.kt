@@ -1,19 +1,16 @@
 package com.example.recipeapp.ui.recipes.recipe
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.RecipeRepository
 import com.example.recipeapp.model.Recipe
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(
-    private val application: Application,
-) : AndroidViewModel(application) {
-
-    private val recipeRepository = RecipeRepository(application)
+    private val repository: RecipeRepository
+) : ViewModel() {
 
     private val _recipeState = MutableLiveData(RecipeUiState())
     val recipeState: LiveData<RecipeUiState> get() = _recipeState
@@ -30,11 +27,11 @@ class RecipeViewModel(
     fun onFavoritesClicked(recipeId: Int) {
 
         viewModelScope.launch {
-            val recipe = recipeRepository.getRecipeByIdFromCash(recipeId)
-            recipeRepository.updateRecipe(recipe.copy(isFavorites = !recipe.isFavorites))
+            val recipe = repository.getRecipeByIdFromCash(recipeId)
+            repository.updateRecipe(recipe.copy(isFavorites = !recipe.isFavorites))
             _recipeState.postValue(
                 recipeState.value?.copy(
-                    isFavorites = recipeRepository.getRecipeByIdFromCash(recipeId).isFavorites
+                    isFavorites = repository.getRecipeByIdFromCash(recipeId).isFavorites
                 )
             )
         }
