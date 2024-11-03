@@ -2,7 +2,6 @@ package com.example.recipeapp.ui.categories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,6 @@ class CategoriesListFragment : Fragment() {
         viewModel.categoryListState.observe(viewLifecycleOwner) { state ->
             if (state.categoryList != null) {
                 customAdapter.dataSet = state.categoryList
-                Log.i("!!!", "Обсервер ${state.categoryList}")
                 customAdapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT)

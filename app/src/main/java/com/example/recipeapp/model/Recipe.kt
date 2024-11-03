@@ -10,10 +10,12 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "recipe")
 data class Recipe(
     @PrimaryKey val id: Int,
+    val isFavorites: Boolean,
     val title: String,
     val ingredients: List<Ingredient>,
     val method: List<String>,
     val imageUrl: String,
     @ColumnInfo(name = "cat_id")
     val categoryId: Int,
-) : Parcelable
+
+    ) : Parcelable
