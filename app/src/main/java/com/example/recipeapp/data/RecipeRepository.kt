@@ -1,43 +1,22 @@
 package com.example.recipeapp.data
 
-import android.content.Context
-import androidx.room.Room
-import com.example.recipeapp.Constants.BASE_API_URL
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.CoroutineContext
 
-class RecipeRepository(context: Context) {
-
-    private val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    private val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_API_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
-
-    private val db = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java, "database-recipe_app"
-    ).fallbackToDestructiveMigration()
-        .build()
-    private val recipeDao by lazy { db.recipeDao() }
-    private val categoryDao by lazy { db.categoryDao() }
-
-
-    suspend fun insertCashCategory(category: Category) = withContext(Dispatchers.IO) {
+class RecipeRepository(
+    private val recipeDao: RecipeDao,
+    private val categoryDao: CategoryDao,
+    private val service: RecipeApiService,
+    private val ioDispatcher: CoroutineContext
+) {
+    suspend fun insertCashCategory(category: Category) = withContext(ioDispatcher) {
         categoryDao.insertCategory(category)
     }
 
-    suspend fun getCategoryFromCash(): List<Category>? = withContext(Dispatchers.IO) {
+    suspend fun getCategoryFromCash(): List<Category>? = withContext(ioDispatcher) {
         try {
             categoryDao.getAllCategory()
         } catch (e: Exception) {
@@ -45,7 +24,7 @@ class RecipeRepository(context: Context) {
         }
     }
 
-    suspend fun getCategoryList(): List<Category>? = withContext(Dispatchers.IO) {
+    suspend fun getCategoryList(): List<Category>? = withContext(ioDispatcher) {
         try {
             service.getCategories().execute().body()
         } catch (e: Exception) {
@@ -62,12 +41,12 @@ class RecipeRepository(context: Context) {
             }
         }
 
-    suspend fun insertRecipeToCash(recipe: Recipe) = withContext(Dispatchers.IO) {
+    suspend fun insertRecipeToCash(recipe: Recipe) = withContext(ioDispatcher) {
         recipeDao.insertRecipe(recipe)
     }
 
     suspend fun getRecipeListByCategoryId(categoryId: Int): List<Recipe>? =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             try {
                 service.getListRecipeByCategoryId(categoryId).execute().body()
             } catch (e: Exception) {
@@ -75,11 +54,11 @@ class RecipeRepository(context: Context) {
             }
         }
 
-    suspend fun getRecipeByIdFromCash(recipeId: Int): Recipe = withContext(Dispatchers.IO) {
+    suspend fun getRecipeByIdFromCash(recipeId: Int): Recipe = withContext(ioDispatcher) {
         recipeDao.getRecipeById(recipeId)
     }
 
-    suspend fun getRecipeById(recipeId: Int): Recipe? = withContext(Dispatchers.IO) {
+    suspend fun getRecipeById(recipeId: Int): Recipe? = withContext(ioDispatcher) {
         try {
             service.getRecipeById(recipeId).execute().body()
         } catch (e: Exception) {
@@ -87,12 +66,12 @@ class RecipeRepository(context: Context) {
         }
     }
 
-    suspend fun getCategoryById(categoryId: Int) = withContext(Dispatchers.IO) {
+    suspend fun getCategoryById(categoryId: Int) = withContext(ioDispatcher) {
         service.getCategoryById(categoryId).execute().body()
     }
 
     suspend fun getListRecipeByListId(favoritesListIdInt: String): List<Recipe>? =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             try {
                 service.getListRecipeByListId(favoritesListIdInt).execute().body() ?: emptyList()
             } catch (e: Exception) {
@@ -100,12 +79,12 @@ class RecipeRepository(context: Context) {
             }
         }
 
-    suspend fun updateRecipe(recipe: Recipe) = withContext(Dispatchers.IO) {
+    suspend fun updateRecipe(recipe: Recipe) = withContext(ioDispatcher) {
         recipeDao.updateRecipe(recipe)
     }
 
     suspend fun getFavoritesList(isFavorites: Boolean): List<Recipe>? =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             recipeDao.getFavoritesListRecipe(isFavorites)
 
         }
