@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.recipeapp.Constants.BASE_API_IMAGE_URL
 import com.example.recipeapp.R
-import com.example.recipeapp.RecipeApplication
 import com.example.recipeapp.databinding.FragmentRecipesListBinding
 import com.example.recipeapp.model.Recipe
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipesListFragment : Fragment() {
 
     private val recipesListBinding:
@@ -24,15 +26,7 @@ class RecipesListFragment : Fragment() {
     }
     private val args: RecipesListFragmentArgs by navArgs()
 
-    private lateinit var viewModel: RecipeListViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer = (requireActivity().application as RecipeApplication).appContainer
-
-        viewModel = appContainer.recipeListFactory.onCreate()
-    }
+    private val viewModel: RecipeListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

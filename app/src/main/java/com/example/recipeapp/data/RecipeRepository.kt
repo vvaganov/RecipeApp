@@ -1,17 +1,20 @@
 package com.example.recipeapp.data
 
+import com.example.recipeapp.di.RecipeModule.IoDispatcher
 import com.example.recipeapp.model.Category
 import com.example.recipeapp.model.Recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class RecipeRepository(
+class RecipeRepository @Inject constructor(
     private val recipeDao: RecipeDao,
     private val categoryDao: CategoryDao,
     private val service: RecipeApiService,
-    private val ioDispatcher: CoroutineContext
+    @IoDispatcher private val ioDispatcher: CoroutineContext
 ) {
+
     suspend fun insertCashCategory(category: Category) = withContext(ioDispatcher) {
         categoryDao.insertCategory(category)
     }
@@ -88,5 +91,4 @@ class RecipeRepository(
             recipeDao.getFavoritesListRecipe(isFavorites)
 
         }
-
 }
