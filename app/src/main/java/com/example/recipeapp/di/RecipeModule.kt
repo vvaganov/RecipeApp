@@ -18,8 +18,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
+import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,9 +31,11 @@ class RecipeModule {
 
     @IoDispatcher
     @Provides
+    @Singleton
     fun provideIoDispatcher(): CoroutineContext = Dispatchers.IO
 
     @Provides
+    @Singleton
     fun provideDataBase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "database-recipe_app"
@@ -47,6 +49,7 @@ class RecipeModule {
     fun provideCategoryDao(appDatabase: AppDatabase): RecipeDao = appDatabase.recipeDao()
 
     @Provides
+    @Singleton
     fun provideHttpClient(): OkHttpClient {
         val interceptor =
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -54,6 +57,7 @@ class RecipeModule {
     }
 
     @Provides
+    @Singleton
     fun provideRetrofit(httpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_API_URL)
         .client(httpClient)
